@@ -1,10 +1,9 @@
-import { useState } from 'react';
-
 // material-ui
 import { Button, List, ListItem, ListItemIcon, ListItemText, Stack, Switch, Typography } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
+import useConfig from 'hooks/useConfig';
 
 // assets
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -12,19 +11,11 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 // ==============================|| TAB - SETTINGS ||============================== //
 
 const TabSettings = () => {
-  const [checked, setChecked] = useState([]);
+  const { mode, onChangeMode } = useConfig();
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
+  const handleChangeMode = () => {
+    const new_mode = mode === 'light' ? 'dark' : 'light';
+    onChangeMode(new_mode);
   };
 
   return (
@@ -37,8 +28,8 @@ const TabSettings = () => {
           <ListItemText id="switch-list-label-dm" primary={<Typography variant="h5">Dark Mode</Typography>} secondary="Go dark" />
           <Switch
             edge="end"
-            onChange={handleToggle('dm')}
-            checked={checked.indexOf('dm') !== -1}
+            onChange={handleChangeMode}
+            checked={mode === 'dark'}
             inputProps={{
               'aria-labelledby': 'switch-list-label-dm'
             }}
