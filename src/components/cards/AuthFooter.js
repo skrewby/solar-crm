@@ -14,43 +14,28 @@ const AuthFooter = () => {
         spacing={2}
         textAlign={matchDownSM ? 'center' : 'inherit'}
       >
-        <Typography variant="subtitle2" color="secondary" component="span">
-          This site is protected by{' '}
-          <Typography component={Link} variant="subtitle2" href="#mantis-privacy" target="_blank" underline="hover">
-            Privacy Policy
-          </Typography>
-        </Typography>
+        <Typography variant="subtitle2" color="secondary" component="span"></Typography>
 
         <Stack direction={matchDownSM ? 'column' : 'row'} spacing={matchDownSM ? 1 : 3} textAlign={matchDownSM ? 'center' : 'inherit'}>
           <Typography
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href="https://codedthemes.com"
+            href="https://www.spacesolar.com.au"
             target="_blank"
             underline="hover"
           >
-            Terms and Conditions
+            About Us
           </Typography>
           <Typography
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href="https://codedthemes.com"
+            href="https://www.google.com"
             target="_blank"
             underline="hover"
           >
-            Privacy Policy
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            color="secondary"
-            component={Link}
-            href="https://codedthemes.com"
-            target="_blank"
-            underline="hover"
-          >
-            CA Privacy Notice
+            Support
           </Typography>
         </Stack>
       </Stack>

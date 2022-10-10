@@ -97,31 +97,7 @@ const Localization = () => {
                         <Grid container>
                           <Typography color="textPrimary">English</Typography>
                           <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (UK)
-                          </Typography>
-                        </Grid>
-                      }
-                    />
-                  </ListItemButton>
-                  <ListItemButton selected={i18n === 'fr'} onClick={() => handleListItemClick('fr')}>
-                    <ListItemText
-                      primary={
-                        <Grid container>
-                          <Typography color="textPrimary">français</Typography>
-                          <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (French)
-                          </Typography>
-                        </Grid>
-                      }
-                    />
-                  </ListItemButton>
-                  <ListItemButton selected={i18n === 'ro'} onClick={() => handleListItemClick('ro')}>
-                    <ListItemText
-                      primary={
-                        <Grid container>
-                          <Typography color="textPrimary">Română</Typography>
-                          <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                            (Romanian)
+                            (Australia)
                           </Typography>
                         </Grid>
                       }
@@ -131,7 +107,7 @@ const Localization = () => {
                     <ListItemText
                       primary={
                         <Grid container>
-                          <Typography color="textPrimary">中国人</Typography>
+                          <Typography color="textPrimary">中文</Typography>
                           <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
                             (Chinese)
                           </Typography>

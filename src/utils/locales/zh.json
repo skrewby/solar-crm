@@ -126,5 +126,8 @@
   "user-list": "用户列表",
   "user-profile": "用户资料",
   "utils": "实用程序",
-  "widgets": "小部件"
+  "widgets": "小部件",
+  "account": "Account",
+  "settings": "Settings",
+  "support": "Support"
 }

@@ -1,21 +1,23 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Link, Stack, Typography } from '@mui/material';
 
 const Footer = () => (
   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ p: '24px 16px 0px', mt: 'auto' }}>
-    <Typography variant="caption">&copy; All rights reserved</Typography>
+    <Typography variant="caption"></Typography>
     <Stack spacing={1.5} direction="row" justifyContent="space-between" alignItems="center">
-      <Link component={RouterLink} to="#" target="_blank" variant="caption" color="textPrimary">
-        About us
-      </Link>
-      <Link component={RouterLink} to="#" target="_blank" variant="caption" color="textPrimary">
-        Privacy
-      </Link>
-      <Link component={RouterLink} to="#" target="_blank" variant="caption" color="textPrimary">
-        Terms
-      </Link>
+      <Typography
+        variant="subtitle2"
+        color="secondary"
+        component={Link}
+        href="https://www.spacesolar.com.au"
+        target="_blank"
+        underline="hover"
+      >
+        About Us
+      </Typography>
+      <Typography variant="subtitle2" color="secondary" component={Link} href="https://www.google.com" target="_blank" underline="hover">
+        Support
+      </Typography>
     </Stack>
   </Stack>
 );
