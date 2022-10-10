@@ -46,7 +46,8 @@ services.onPost('/api/account/login').reply(async (request) => {
         user: {
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.name,
+          role: user.role
         }
       }
     ];
@@ -113,7 +114,8 @@ services.onGet('/api/account/me').reply((request) => {
       {
         user: {
           id: user.id,
-          email: user.email
+          email: user.email,
+          role: user.role
         }
       }
     ];

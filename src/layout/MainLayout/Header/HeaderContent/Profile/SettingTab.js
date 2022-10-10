@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
@@ -10,26 +10,29 @@ import { FormattedMessage } from 'react-intl';
 // ==============================|| HEADER PROFILE - SETTING TAB ||============================== //
 
 const SettingTab = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
+  const navigate = useNavigate();
+
+  const handleListItemClick = (href) => {
+    if (href) {
+      navigate(href);
+    }
   };
 
   return (
     <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }}>
-      <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
+      <ListItemButton onClick={() => handleListItemClick('/user')}>
         <ListItemIcon>
           <UserOutlined />
         </ListItemIcon>
         <ListItemText primary={<FormattedMessage id="account" />} />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1)}>
+      <ListItemButton onClick={() => handleListItemClick('/user/settings')}>
         <ListItemIcon>
           <SettingOutlined />
         </ListItemIcon>
         <ListItemText primary={<FormattedMessage id="settings" />} />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 2} onClick={(event) => handleListItemClick(event, 2)}>
+      <ListItemButton onClick={() => handleListItemClick()}>
         <ListItemIcon>
           <QuestionCircleOutlined />
         </ListItemIcon>

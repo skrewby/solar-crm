@@ -11,7 +11,8 @@ import {
   MenuUnfoldOutlined,
   QuestionOutlined,
   SmileOutlined,
-  StopOutlined
+  StopOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 
 // icons
@@ -24,7 +25,8 @@ const icons = {
   SmileOutlined,
   GatewayOutlined,
   QuestionOutlined,
-  DeploymentUnitOutlined
+  DeploymentUnitOutlined,
+  UserOutlined
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
@@ -40,6 +42,13 @@ const other = {
       type: 'item',
       url: '/sample-page',
       icon: icons.ChromeOutlined
+    },
+    {
+      id: 'user',
+      title: <FormattedMessage id="account" />,
+      type: 'item',
+      url: '/user',
+      icon: icons.UserOutlined
     },
     {
       id: 'disabled-menu',
