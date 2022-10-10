@@ -1,5 +1,5 @@
 // material-ui
-import { Button, List, ListItem, ListItemIcon, ListItemText, Stack, Switch, Typography } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText, Switch, Typography } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -21,7 +21,7 @@ const TabSettings = () => {
   return (
     <MainCard title="Settings">
       <List sx={{ '& .MuiListItem-root': { p: 2 } }}>
-        <ListItem divider>
+        <ListItem>
           <ListItemIcon sx={{ color: 'primary.main', mr: 2, display: { xs: 'none', sm: 'block' } }}>
             <DarkModeOutlinedIcon style={{ fontSize: '1.5rem' }} />
           </ListItemIcon>
@@ -36,12 +36,6 @@ const TabSettings = () => {
           />
         </ListItem>
       </List>
-      <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ mt: 2.5 }}>
-        <Button variant="outlined" color="secondary">
-          Cancel
-        </Button>
-        <Button variant="contained">Save</Button>
-      </Stack>
     </MainCard>
   );
 };
