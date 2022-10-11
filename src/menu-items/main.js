@@ -15,6 +15,8 @@ import {
   UserOutlined
 } from '@ant-design/icons';
 
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+
 // icons
 const icons = {
   ChromeOutlined,
@@ -26,24 +28,25 @@ const icons = {
   GatewayOutlined,
   QuestionOutlined,
   DeploymentUnitOutlined,
-  UserOutlined
+  UserOutlined,
+  ArticleOutlinedIcon
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
-const other = {
-  id: 'other',
-  title: <FormattedMessage id="others" />,
+const main = {
+  id: 'main',
+  title: <FormattedMessage id="main" />,
   type: 'group',
   children: [
     {
-      id: 'user',
-      title: <FormattedMessage id="account" />,
+      id: 'leads',
+      title: <FormattedMessage id="leads" />,
       type: 'item',
-      url: '/user',
-      icon: icons.UserOutlined
+      url: '/leads',
+      icon: icons.ArticleOutlinedIcon
     }
   ]
 };
 
-export default other;
+export default main;

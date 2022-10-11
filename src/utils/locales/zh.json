@@ -129,5 +129,7 @@
   "widgets": "小部件",
   "account": "Account",
   "settings": "Settings",
-  "support": "Support"
+  "support": "Support",
+  "main": "Main",
+  "leads": "Leads"
 }
