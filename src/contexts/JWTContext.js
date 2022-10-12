@@ -1,19 +1,13 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useReducer } from 'react';
 
-// third-party
-import { Chance } from 'chance';
-import jwtDecode from 'jwt-decode';
-
 // reducer - state management
 import { LOGIN, LOGOUT } from 'store/reducers/actions';
 import authReducer from 'store/reducers/auth';
 
 // project import
 import Loader from 'components/Loader';
-import axios from 'utils/axios';
-
-const chance = new Chance();
+import { bpmAPI } from 'api/bpm/bpm-api';
 
 // constant
 const initialState = {
@@ -22,24 +16,11 @@ const initialState = {
   user: null
 };
 
-const verifyToken = (serviceToken) => {
-  if (!serviceToken) {
-    return false;
-  }
-  const decoded = jwtDecode(serviceToken);
-  /**
-   * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
-   */
-  return decoded.exp > Date.now() / 1000;
-};
-
-const setSession = (serviceToken) => {
-  if (serviceToken) {
-    localStorage.setItem('serviceToken', serviceToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
+const setSession = (id_token) => {
+  if (id_token) {
+    window.sessionStorage.setItem('idToken', id_token);
   } else {
-    localStorage.removeItem('serviceToken');
-    delete axios.defaults.headers.common.Authorization;
+    window.sessionStorage.removeItem('idToken');
   }
 };
 
@@ -53,10 +34,10 @@ export const JWTProvider = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       try {
-        const serviceToken = window.localStorage.getItem('serviceToken');
-        if (serviceToken && verifyToken(serviceToken)) {
-          setSession(serviceToken);
-          const response = await axios.get('/api/account/me');
+        const idToken = window.sessionStorage.getItem('idToken');
+        if (idToken) {
+          setSession(idToken);
+          const response = await bpmAPI.getCurrentUser();
           const { user } = response.data;
           dispatch({
             type: LOGIN,
@@ -82,9 +63,9 @@ export const JWTProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', { email, password });
-    const { serviceToken, user } = response.data;
-    setSession(serviceToken);
+    const response = await bpmAPI.login(email, password);
+    const { id_token, user } = response.data;
+    setSession(id_token);
     dispatch({
       type: LOGIN,
       payload: {

@@ -13,6 +13,7 @@ import useAuth from 'hooks/useAuth';
 
 // assets
 import { CameraOutlined } from '@ant-design/icons';
+import RoleDisplay from 'components/user/RoleDisplay';
 
 const avatarImage = require.context('assets/images/users', true);
 
@@ -75,7 +76,8 @@ const ProfileTabs = () => {
               onChange={(e) => setSelectedImage(e.target.files?.[0])}
             />
             <Stack spacing={0.5} alignItems="center">
-              <Typography variant="h5">{user?.name}</Typography>
+              <Typography variant="h5">{user?.username}</Typography>
+              <RoleDisplay roles={user?.roles} />
               <Typography color="secondary">{user?.role}</Typography>
             </Stack>
           </Stack>
