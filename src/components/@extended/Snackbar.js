@@ -86,12 +86,98 @@ const Snackbar = () => {
           TransitionComponent={animation[transition]}
           anchorOrigin={anchorOrigin}
           open={open}
-          autoHideDuration={6000}
+          autoHideDuration={2500}
           onClose={handleClose}
         >
           <Alert
             variant={alert.variant}
             color={alert.color}
+            action={
+              <>
+                {actionButton !== false && (
+                  <Button color={alert.color} size="small" onClick={handleClose}>
+                    UNDO
+                  </Button>
+                )}
+                {close !== false && (
+                  <IconButton
+                    sx={{ mt: 0.25 }}
+                    size="small"
+                    aria-label="close"
+                    variant="contained"
+                    color={alert.color}
+                    onClick={handleClose}
+                  >
+                    <CloseOutlined />
+                  </IconButton>
+                )}
+              </>
+            }
+            sx={{
+              ...(alert.variant === 'outlined' && {
+                bgcolor: 'grey.0'
+              })
+            }}
+          >
+            {message}
+          </Alert>
+        </MuiSnackbar>
+      )}
+
+      {/* error snackbar */}
+      {variant === 'error' && (
+        <MuiSnackbar
+          TransitionComponent={animation[transition]}
+          anchorOrigin={anchorOrigin}
+          open={open}
+          autoHideDuration={2500}
+          onClose={handleClose}
+        >
+          <Alert
+            severity="error"
+            action={
+              <>
+                {actionButton !== false && (
+                  <Button color={alert.color} size="small" onClick={handleClose}>
+                    UNDO
+                  </Button>
+                )}
+                {close !== false && (
+                  <IconButton
+                    sx={{ mt: 0.25 }}
+                    size="small"
+                    aria-label="close"
+                    variant="contained"
+                    color={alert.color}
+                    onClick={handleClose}
+                  >
+                    <CloseOutlined />
+                  </IconButton>
+                )}
+              </>
+            }
+            sx={{
+              ...(alert.variant === 'outlined' && {
+                bgcolor: 'grey.0'
+              })
+            }}
+          >
+            {message}
+          </Alert>
+        </MuiSnackbar>
+      )}
+
+      {/* success snackbar */}
+      {variant === 'success' && (
+        <MuiSnackbar
+          TransitionComponent={animation[transition]}
+          anchorOrigin={anchorOrigin}
+          open={open}
+          autoHideDuration={2500}
+          onClose={handleClose}
+        >
+          <Alert
+            severity="success"
             action={
               <>
                 {actionButton !== false && (

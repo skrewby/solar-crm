@@ -78,7 +78,6 @@ const ProfileTabs = () => {
             <Stack spacing={0.5} alignItems="center">
               <Typography variant="h5">{user?.username}</Typography>
               <RoleDisplay roles={user?.roles} />
-              <Typography color="secondary">{user?.role}</Typography>
             </Stack>
           </Stack>
         </Grid>

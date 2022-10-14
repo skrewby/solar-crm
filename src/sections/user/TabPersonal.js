@@ -14,6 +14,8 @@ import { Formik } from 'formik';
 import { openSnackbar } from 'store/reducers/snackbar';
 // import { useInputRef } from './index';
 import MainCard from 'components/MainCard';
+import useAuth from 'hooks/useAuth';
+import { bpmAPI } from 'api/bpm/bpm-api';
 
 // assets
 
@@ -25,8 +27,7 @@ function useInputRef() {
 // ==============================|| TAB - PERSONAL ||============================== //
 
 const TabPersonal = () => {
-  const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear() - 18);
+  const { user, refreshUser } = useAuth();
 
   const dispatch = useDispatch();
   const inputRef = useInputRef();
@@ -35,29 +36,39 @@ const TabPersonal = () => {
     <MainCard content={false} title="Account Information" sx={{ '& .MuiInputLabel-root': { fontSize: '0.875rem' } }}>
       <Formik
         initialValues={{
-          username: 'John Doe',
-          email: 'john.doe@gmail.com',
-          phone: '0492 957 200',
+          username: user.username || '',
+          email: user.email || '',
+          phone: user.phone || '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           username: Yup.string().max(255).required('Username is required.'),
           email: Yup.string().email('Invalid email address.').max(255).required('Email is required.'),
-          phone: Yup.string().max(255).required('Phone number is required.')
+          phone: Yup.string().max(255)
         })}
-        onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            dispatch(
-              openSnackbar({
-                open: true,
-                message: 'Personal profile updated successfully.',
-                variant: 'alert',
-                alert: {
-                  color: 'success'
-                },
-                close: false
-              })
-            );
+            const res = await bpmAPI.updateUser(user.id, values);
+            if (res.data) {
+              refreshUser();
+              dispatch(
+                openSnackbar({
+                  open: true,
+                  message: 'Profile updated successfully.',
+                  variant: 'success',
+                  close: false
+                })
+              );
+            } else {
+              dispatch(
+                openSnackbar({
+                  open: true,
+                  message: res.message || 'Error',
+                  variant: 'error',
+                  close: false
+                })
+              );
+            }
             setStatus({ success: false });
             setSubmitting(false);
           } catch (err) {

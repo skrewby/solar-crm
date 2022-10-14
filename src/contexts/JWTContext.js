@@ -108,6 +108,18 @@ export const JWTProvider = ({ children }) => {
     dispatch({ type: LOGOUT });
   };
 
+  const refreshUser = async () => {
+    const response = await bpmAPI.getCurrentUser();
+    const { user } = response.data;
+    dispatch({
+      type: LOGIN,
+      payload: {
+        isLoggedIn: true,
+        user
+      }
+    });
+  };
+
   const resetPassword = async () => {};
 
   const updateProfile = () => {};
@@ -116,7 +128,11 @@ export const JWTProvider = ({ children }) => {
     return <Loader />;
   }
 
-  return <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>;
+  return (
+    <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile, refreshUser }}>
+      {children}
+    </JWTContext.Provider>
+  );
 };
 
 JWTProvider.propTypes = {

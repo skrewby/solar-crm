@@ -77,17 +77,31 @@ const TabPassword = () => {
         })}
         onSubmit={async (values, { resetForm, setErrors, setStatus, setSubmitting }) => {
           try {
-            dispatch(
-              openSnackbar({
-                open: true,
-                message: 'Password changed successfully.',
-                variant: 'alert',
-                alert: {
-                  color: 'success'
-                },
-                close: false
-              })
-            );
+            const data = {
+              old_password: values.old,
+              password: values.password
+            };
+            const res = await bpmAPI.changeUserPassword(user.id, data);
+            if (res.data) {
+              refreshUser();
+              dispatch(
+                openSnackbar({
+                  open: true,
+                  message: 'Password Changed',
+                  variant: 'success',
+                  close: false
+                })
+              );
+            } else {
+              dispatch(
+                openSnackbar({
+                  open: true,
+                  message: res.message || 'Error',
+                  variant: 'error',
+                  close: false
+                })
+              );
+            }
 
             resetForm();
             setStatus({ success: false });

@@ -41,6 +41,78 @@ const Palette = (mode, presetColor) => {
   return createTheme({
     palette: {
       mode,
+      red: {
+        light: colors.red[3],
+        main: colors.red[5],
+        dark: colors.red[7],
+        contrastText: colors.red[0]
+      },
+      volcano: {
+        light: colors.volcano[3],
+        main: colors.volcano[5],
+        dark: colors.volcano[7],
+        contrastText: colors.volcano[0]
+      },
+      orange: {
+        light: colors.orange[3],
+        main: colors.orange[5],
+        dark: colors.orange[7],
+        contrastText: colors.orange[0]
+      },
+      gold: {
+        light: colors.gold[3],
+        main: colors.gold[5],
+        dark: colors.gold[7],
+        contrastText: colors.gold[0]
+      },
+      yellow: {
+        light: colors.yellow[3],
+        main: colors.yellow[5],
+        dark: colors.yellow[7],
+        contrastText: colors.yellow[0]
+      },
+      lime: {
+        light: colors.lime[3],
+        main: colors.lime[5],
+        dark: colors.lime[7],
+        contrastText: colors.lime[0]
+      },
+      green: {
+        light: colors.green[3],
+        main: colors.green[5],
+        dark: colors.green[7],
+        contrastText: colors.green[0]
+      },
+      cyan: {
+        light: colors.cyan[3],
+        main: colors.cyan[5],
+        dark: colors.cyan[7],
+        contrastText: colors.cyan[0]
+      },
+      blue: {
+        light: colors.blue[3],
+        main: colors.blue[5],
+        dark: colors.blue[7],
+        contrastText: colors.blue[0]
+      },
+      geekblue: {
+        light: colors.geekblue[3],
+        main: colors.geekblue[5],
+        dark: colors.geekblue[7],
+        contrastText: colors.geekblue[0]
+      },
+      purple: {
+        light: colors.purple[3],
+        main: colors.purple[5],
+        dark: colors.purple[7],
+        contrastText: colors.purple[0]
+      },
+      magenta: {
+        light: colors.magenta[3],
+        main: colors.magenta[5],
+        dark: colors.magenta[7],
+        contrastText: colors.magenta[0]
+      },
       common: {
         black: '#000',
         white: '#fff'

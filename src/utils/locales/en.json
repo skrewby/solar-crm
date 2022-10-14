@@ -131,5 +131,12 @@
   "settings": "Settings",
   "support": "Support",
   "main": "Operations",
-  "leads": "Leads"
+  "leads": "Leads",
+  "daybreak-blue": "Daybreak Blue",
+  "golden-purple": "Golden Purple",
+  "polar-green": "Polar Green",
+  "geek-blue": "Geek Blue",
+  "sunset-orange": "Sunset Orange",
+  "cyan": "Cyan",
+  "lime": "Lime"
 }
