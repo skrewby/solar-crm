@@ -17,11 +17,7 @@ class Server {
       // Cors fetch options
       .options({ credentials: 'include', mode: 'cors' })
       .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
-      .errorType('json')
-      .catcher(403, (error) => {
-        const { message } = error.message;
-        throw Error(message);
-      });
+      .errorType('json');
     return bpmServer;
   }
 }
