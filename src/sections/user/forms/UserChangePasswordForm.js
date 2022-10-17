@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 
 // Material UI
-import { Button, Grid, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 // Project Imports
 import { bpmAPI } from 'api/bpm/bpm-api';
@@ -102,9 +102,7 @@ const UserChangePasswordForm = () => {
 
   return (
     <>
-      <Grid container>
-        <FormFields formik={formik} fields={formikFields} />
-      </Grid>
+      <FormFields formik={formik} fields={formikFields} width={12} />
       <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2.5 }}>
         <Button
           disabled={formik.isSubmitting}
