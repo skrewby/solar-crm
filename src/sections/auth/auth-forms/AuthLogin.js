@@ -69,7 +69,7 @@ const AuthLogin = () => {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.message.message });
               setSubmitting(false);
             }
           }

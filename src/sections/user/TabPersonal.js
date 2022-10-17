@@ -73,7 +73,7 @@ const TabPersonal = () => {
             setSubmitting(false);
           } catch (err) {
             setStatus({ success: false });
-            setErrors({ submit: err.message });
+            setErrors({ submit: err.message.message });
             setSubmitting(false);
           }
         }}
