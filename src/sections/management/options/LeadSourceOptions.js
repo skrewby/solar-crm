@@ -9,9 +9,11 @@ import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import EditableTable from 'components/tables/EditableTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
+import AddLeadSourceForm from './forms/AddLeadSourceForm';
 
 const LeadSourceOptions = () => {
   const [data, setData] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const getData = useCallback(async () => {
     setData([]);
@@ -72,18 +74,20 @@ const LeadSourceOptions = () => {
     }
   };
 
-  const addSource = () => {
-    console.log('Add');
+  const onAddOption = (values) => {
+    const newData = [...data, values];
+    setData(newData);
   };
 
   return (
     <MainCard title="Lead Sources" content={false}>
       <EditableTable columns={columns} data={data} updateMyData={updateMyData} />
       <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 0.5 }}>
-        <IconButton justify="center" color="primary" onClick={addSource}>
+        <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
           <AddIcon />
         </IconButton>
       </Stack>
+      <AddLeadSourceForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </MainCard>
   );
 };
