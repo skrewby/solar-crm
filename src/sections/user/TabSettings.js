@@ -37,7 +37,9 @@ const TabSettings = () => {
           </ListItemIcon>
           <ListItemText id="switch-list-label-theme" primary={<Typography variant="h5">Theme</Typography>} secondary="App colour scheme" />
           <Select displayEmpty labelId="settings-select-theme" id="setting-select-theme" value={presetColor} onChange={handleChangeTheme}>
-            <MenuItem value="default">Default</MenuItem>
+            <MenuItem value="default">
+              <FormattedMessage id="basic" />
+            </MenuItem>
             <MenuItem value="theme1">
               <FormattedMessage id="daybreak-blue" />
             </MenuItem>

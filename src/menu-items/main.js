@@ -2,35 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import {
-  BorderOutlined,
-  BoxPlotOutlined,
-  ChromeOutlined,
-  DeploymentUnitOutlined,
-  GatewayOutlined,
-  MenuUnfoldOutlined,
-  QuestionOutlined,
-  SmileOutlined,
-  StopOutlined,
-  UserOutlined
-} from '@ant-design/icons';
-
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-
-// icons
-const icons = {
-  ChromeOutlined,
-  MenuUnfoldOutlined,
-  BoxPlotOutlined,
-  StopOutlined,
-  BorderOutlined,
-  SmileOutlined,
-  GatewayOutlined,
-  QuestionOutlined,
-  DeploymentUnitOutlined,
-  UserOutlined,
-  ArticleOutlinedIcon
-};
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
@@ -44,7 +16,7 @@ const main = {
       title: <FormattedMessage id="leads" />,
       type: 'item',
       url: '/leads',
-      icon: icons.ArticleOutlinedIcon
+      icon: HeadsetMicIcon
     }
   ]
 };
