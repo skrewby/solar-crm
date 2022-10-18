@@ -103,14 +103,14 @@ ReactTable.propTypes = {
 
 // ==============================|| REACT TABLE - EDITABLE ||============================== //
 
-const EditableTable = ({ columns, data, onUpdate }) => {
+const EditableTable = ({ columns, data, updateMyData }) => {
   const [update, setUpdate] = useState(false);
   const [skipPageReset, setSkipPageReset] = useState(false);
 
-  const updateMyData = (rowIndex, columnId, value) => {
+  const onUpdate = (rowIndex, columnId, value) => {
     // We also turn on the flag to not reset the page
     setSkipPageReset(true);
-    onUpdate(rowIndex, columnId, value);
+    updateMyData(rowIndex, columnId, value);
     setUpdate(true);
   };
 
@@ -121,7 +121,7 @@ const EditableTable = ({ columns, data, onUpdate }) => {
 
   return (
     <ScrollX>
-      <ReactTable columns={columns} data={data} updateMyData={updateMyData} skipPageReset={skipPageReset} />
+      <ReactTable columns={columns} data={data} updateMyData={onUpdate} skipPageReset={skipPageReset} />
     </ScrollX>
   );
 };
@@ -129,7 +129,7 @@ const EditableTable = ({ columns, data, onUpdate }) => {
 EditableTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
-  onUpdate: PropTypes.func
+  updateMyData: PropTypes.func
 };
 
 export default EditableTable;
