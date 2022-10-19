@@ -59,3 +59,15 @@ export async function changeUserPassword(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function setUserRoles(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/users/' + id + '/roles')
+    .put(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}

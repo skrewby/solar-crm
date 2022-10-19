@@ -1,5 +1,5 @@
 import { getCurrentUser, login, logout } from './auth';
-import { changeUserPassword, getUser, getUsers, updateUser, addUser } from './users/user';
+import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles } from './users/user';
 import { getRoles, updateRole } from './options/roles';
 import { createLeadSource, getLeadSource, getLeadSources, updateLeadSource } from './options/lead-sources';
 import { createPhase, getPhase, getPhases, updatePhase } from './options/phases';
@@ -27,6 +27,7 @@ API.prototype.updateUser = updateUser;
 API.prototype.getUser = getUser;
 API.prototype.addUser = addUser;
 API.prototype.changeUserPassword = changeUserPassword;
+API.prototype.setUserRoles = setUserRoles;
 
 // ============================= ROLES ============================ //
 API.prototype.getRoles = getRoles;

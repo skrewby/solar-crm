@@ -10,6 +10,7 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 import EditableTable from 'components/tables/EditableTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
 import AddUserForm from './forms/AddUserForm';
+import MultiAutocompleteCell from 'components/tables/cells/MultiAutocompleteCell';
 
 const Users = () => {
   const [data, setData] = useState([]);
@@ -47,6 +48,11 @@ const Users = () => {
         accessor: 'phone'
       },
       {
+        Header: 'Roles',
+        accessor: 'roles',
+        Cell: MultiAutocompleteCell
+      },
+      {
         Header: 'Status',
         accessor: 'active',
         // eslint-disable-next-line
@@ -68,9 +74,14 @@ const Users = () => {
       return row;
     });
 
-    const result = await bpmAPI.updateUser(newData[rowIndex].id, newData[rowIndex]);
-    if (result.data) {
-      setData(newData);
+    try {
+      const result = await bpmAPI.updateUser(newData[rowIndex].id, newData[rowIndex]);
+      const role_result = await bpmAPI.setUserRoles(newData[rowIndex].id, { roles: newData[rowIndex].roles });
+      if (result.data && role_result.data) {
+        setData(newData);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
