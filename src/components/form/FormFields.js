@@ -17,7 +17,7 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
         }
         if (field.variant === 'Input') {
           return (
-            <React.Fragment key={uuid()}>
+            <React.Fragment key={field.id}>
               <Grid item xs={field.width || 6}>
                 <InputField
                   error={field.error}
