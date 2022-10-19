@@ -12,6 +12,30 @@ export async function getUser(id) {
   return Promise.resolve(response);
 }
 
+export async function getUsers() {
+  const response = await bpmServer
+    .api()
+    .url('/users')
+    .get()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function addUser(data) {
+  const response = await bpmServer
+    .api()
+    .url('/users')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
 export async function updateUser(id, data) {
   const response = await bpmServer
     .api()

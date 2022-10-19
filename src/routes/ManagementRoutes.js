@@ -7,6 +7,7 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // render - sample page
 const OptionsPage = Loadable(lazy(() => import('pages/management/options-management')));
+const UsersPage = Loadable(lazy(() => import('pages/management/users-management')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -24,6 +25,10 @@ const ManagementRoutes = {
         {
           path: 'options',
           element: <OptionsPage />
+        },
+        {
+          path: 'users',
+          element: <UsersPage />
         }
       ]
     }
