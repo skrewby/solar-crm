@@ -7,9 +7,28 @@ import { useDispatch } from 'react-redux';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import { openSnackbar } from 'store/reducers/snackbar';
 import FormDialog from 'components/dialogs/FormDialog';
+import { useCallback, useEffect, useState } from 'react';
 
 const AddUserForm = ({ openDialog, setOpenDialog, onFormSubmit }) => {
   const dispatch = useDispatch();
+  const [roles, setRoles] = useState([]);
+
+  const getData = useCallback(async () => {
+    setRoles([]);
+
+    try {
+      const result = await bpmAPI.getRoles();
+      if (result.data) {
+        setRoles(result.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const submitForm = async (values) => {
     const res = await bpmAPI.addUser(values);
@@ -37,17 +56,19 @@ const AddUserForm = ({ openDialog, setOpenDialog, onFormSubmit }) => {
 
   const formik = useFormik({
     enableReinitialize: true,
-    validateOnChange: false,
+    validateOnChange: true,
     initialValues: {
       username: '',
       email: '',
       phone: '',
+      role_id: '',
       submit: null
     },
     validationSchema: Yup.object().shape({
       username: Yup.string().required('Required'),
-      email: Yup.string().email().required('Required'),
-      phone: Yup.string().required('Required')
+      email: Yup.string().email('Must be a valid Email').required('Required'),
+      phone: Yup.string().required('Required'),
+      role_id: Yup.string().required('Required')
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -92,6 +113,17 @@ const AddUserForm = ({ openDialog, setOpenDialog, onFormSubmit }) => {
       value: formik.values.phone,
       label: 'Contact',
       name: 'phone'
+    },
+    {
+      id: 4,
+      width: 6,
+      variant: 'Select',
+      touched: formik.touched.role_id,
+      error: formik.errors.role_id,
+      value: formik.values.role_id,
+      label: 'Initial Role',
+      name: 'role_id',
+      options: roles
     }
   ];
 

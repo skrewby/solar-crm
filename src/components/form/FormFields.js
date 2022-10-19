@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { InputField } from './fields/InputField';
 import { MultiAutocompleteField } from './fields/MultiAutocompleteField';
 import { PasswordField } from './fields/PasswordField';
+import { SelectField } from './fields/SelectField';
 
 export const FormFields = ({ fields, formik, width = 6 }) => {
   return (
@@ -48,6 +49,22 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
                   type={field.type}
                   value={field.value}
                   placeholder={field.placeholder}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        } else if (field.variant === 'Select') {
+          return (
+            <React.Fragment key={field.id}>
+              <Grid item xs={field.width || 6}>
+                <SelectField
+                  error={field.error}
+                  touched={field.touched}
+                  label={field.label}
+                  name={field.name}
+                  onChange={formik.handleChange}
+                  value={field.value}
+                  options={field.options}
                 />
               </Grid>
             </React.Fragment>
