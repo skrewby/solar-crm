@@ -43,7 +43,7 @@ const RoleDisplay = ({ roles }) => {
     >
       {roles.map((data) => (
         <ListItem key={data.id}>
-          <Chip size="small" variant="outlined" label={data.name} color={getRoleColour(data.name)} sx={{ borderRadius: 10 }} />
+          <Chip size="small" variant="outlined" label={data.label} color={getRoleColour(data.label)} sx={{ borderRadius: 10 }} />
         </ListItem>
       ))}
     </Box>

@@ -6,7 +6,9 @@ import { v4 as uuid } from 'uuid';
 
 // Project Import
 import { InputField } from './fields/InputField';
+import { MultiAutocompleteField } from './fields/MultiAutocompleteField';
 import { PasswordField } from './fields/PasswordField';
+import { SelectField } from './fields/SelectField';
 
 export const FormFields = ({ fields, formik, width = 6 }) => {
   return (
@@ -33,8 +35,7 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
               </Grid>
             </React.Fragment>
           );
-        }
-        if (field.variant === 'Password') {
+        } else if (field.variant === 'Password') {
           return (
             <React.Fragment key={field.id}>
               <Grid item xs={field.width || 6}>
@@ -46,6 +47,39 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   type={field.type}
+                  value={field.value}
+                  placeholder={field.placeholder}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        } else if (field.variant === 'Select') {
+          return (
+            <React.Fragment key={field.id}>
+              <Grid item xs={field.width || 6}>
+                <SelectField
+                  error={field.error}
+                  touched={field.touched}
+                  label={field.label}
+                  name={field.name}
+                  onChange={formik.handleChange}
+                  value={field.value}
+                  options={field.options}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        } else if (field.variant === 'MultiAutocomplete') {
+          return (
+            <React.Fragment key={field.id}>
+              <Grid item xs={field.width || 6}>
+                <MultiAutocompleteField
+                  error={field.error}
+                  touched={field.touched}
+                  label={field.label}
+                  name={field.name}
+                  options={field.options}
+                  onChange={formik.handleChange}
                   value={field.value}
                   placeholder={field.placeholder}
                 />
