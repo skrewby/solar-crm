@@ -53,15 +53,17 @@ const AuthLogin = () => {
               setSubmitting(false);
             }
           } catch (err) {
-            console.log(err.message.data);
-            window.localStorage.setItem('user_id', err.message.data.id);
+            if (err.message.message === "User hasn't set their password yet") {
+              window.localStorage.setItem('user_id', err.message.data.id);
+              navigate('/create-password');
+              return;
+            }
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
               setErrors({ submit: err.message.message });
               setSubmitting(false);
             }
-            navigate('/create-password');
           }
         }}
       >

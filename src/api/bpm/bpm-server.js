@@ -15,13 +15,15 @@ class Server {
   }
 
   api(mode = '') {
-    const [bpmController, bpmServer] = wretch()
+    const controller = new AbortController();
+    const bpmServer = wretch()
       // Set the base url
       .url(this.server_url)
       // Cors fetch options
       .options({ credentials: 'include', mode: 'cors' })
       .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
       .addon(AbortAddon())
+      .signal(controller)
       .errorType('json')
       .catcher(401, async (error, request) => {
         try {
@@ -51,7 +53,7 @@ class Server {
       });
 
     if (mode === 'Abort') {
-      bpmController.abort();
+      controller.abort();
     }
     return bpmServer;
   }
