@@ -20,6 +20,11 @@ const setSession = (id_token) => {
   if (id_token) {
     window.sessionStorage.setItem('idToken', id_token);
   } else {
+    try {
+      bpmAPI.logout();
+    } catch (error) {
+      console.error(error.message);
+    }
     window.sessionStorage.removeItem('idToken');
   }
 };
@@ -46,7 +51,7 @@ export const JWTProvider = ({ children }) => {
           }
           return null;
         };
-        const idToken = getIDToken();
+        const idToken = await getIDToken();
 
         if (idToken) {
           setSession(idToken);
@@ -60,12 +65,14 @@ export const JWTProvider = ({ children }) => {
             }
           });
         } else {
+          setSession(null);
           dispatch({
             type: LOGOUT
           });
         }
       } catch (err) {
         console.error(err);
+        setSession(null);
         dispatch({
           type: LOGOUT
         });

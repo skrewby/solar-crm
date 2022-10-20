@@ -38,7 +38,7 @@ export async function getCurrentUser() {
 
 export async function logout() {
   window.sessionStorage.removeItem('idToken');
-  bpmServer.api().url('/auth/logout').get();
+  bpmServer.api().url('/auth/logout').post();
 
   return Promise.resolve();
 }

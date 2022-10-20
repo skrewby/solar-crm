@@ -20,27 +20,30 @@ class Server {
       .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
       .errorType('json')
       .catcher(401, async (error, request) => {
-        const res = await wretch()
-          .url(`${this.server_url}/auth/refresh`)
-          .options({ credentials: 'include', mode: 'cors' })
-          .post()
-          .json((res) => res);
+        try {
+          const res = await wretch()
+            .url(`${this.server_url}/auth/refresh`)
+            .options({ credentials: 'include', mode: 'cors' })
+            .post()
+            .json((res) => res);
 
-        if (res.data) {
-          window.sessionStorage.setItem('idToken', res.data.id_token);
+          window.sessionStorage.setItem('idToken', res.data.id_token || '');
           return request
             .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
             .fetch()
             .unauthorized(() => {
               const { logout } = useAuth();
+              wretch().url(`${this.server_url}/auth/logout`).options({ credentials: 'include', mode: 'cors' }).post();
+
               logout();
             })
             .json();
-        } else {
-          window.sessionStorage.removeItem('idToken');
-          const { logout } = useAuth();
-          logout();
+        } catch (err) {
+          return request.json({ message: err.message });
         }
+      })
+      .catcher(403, async (error, request) => {
+        return request.json({ message: error.message });
       });
     return bpmServer;
   }
