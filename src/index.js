@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 // third-party
@@ -22,7 +22,8 @@ import reportWebVitals from './reportWebVitals';
 
 // ==============================|| MAIN - REACT DOM RENDER  ||============================== //
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <ReduxProvider store={store}>
     <PersistGate loading={null} persistor={persister}>
       <ConfigProvider>
@@ -31,8 +32,7 @@ ReactDOM.render(
         </BrowserRouter>
       </ConfigProvider>
     </PersistGate>
-  </ReduxProvider>,
-  document.getElementById('root')
+  </ReduxProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
