@@ -1,5 +1,8 @@
-import useAuth from 'hooks/useAuth';
 import wretch from 'wretch';
+import AbortAddon from 'wretch/addons/abort';
+
+// Project Import
+import useAuth from 'hooks/useAuth';
 
 class Server {
   constructor() {
@@ -11,13 +14,14 @@ class Server {
     return url;
   }
 
-  api() {
-    const bpmServer = wretch()
+  api(mode = '') {
+    const [bpmController, bpmServer] = wretch()
       // Set the base url
       .url(this.server_url)
       // Cors fetch options
       .options({ credentials: 'include', mode: 'cors' })
       .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
+      .addon(AbortAddon())
       .errorType('json')
       .catcher(401, async (error, request) => {
         try {
@@ -45,6 +49,10 @@ class Server {
       .catcher(403, async (error, request) => {
         return request.json({ message: error.message });
       });
+
+    if (mode === 'Abort') {
+      bpmController.abort();
+    }
     return bpmServer;
   }
 }

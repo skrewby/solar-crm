@@ -13,8 +13,13 @@ import {
 import { addRoofType, getRoofType, getRoofTypes, updateRoofType } from './options/roof-types';
 import { addRoofPitch, getRoofPitch, getRoofPitches, updateRoofPitch } from './options/roof-pitch';
 import { addStockType, getStockType, getStockTypes, updateStockType } from './options/stock-types';
+import { bpmServer } from './bpm-server';
 
-class API {}
+class API {
+  abort() {
+    bpmServer.api('Abort');
+  }
+}
 
 // ============================= AUTH ============================= //
 API.prototype.login = login;
