@@ -34,7 +34,20 @@ export const JWTProvider = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       try {
-        const idToken = window.sessionStorage.getItem('idToken');
+        const getIDToken = async () => {
+          const idToken = window.sessionStorage.getItem('idToken');
+          if (idToken) {
+            return idToken;
+          }
+
+          const res = await bpmAPI.refresh();
+          if (res.data) {
+            return res.data.id_token;
+          }
+          return null;
+        };
+        const idToken = getIDToken();
+
         if (idToken) {
           setSession(idToken);
           const response = await bpmAPI.getCurrentUser();

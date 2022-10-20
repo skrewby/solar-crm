@@ -1,5 +1,5 @@
-import { getCurrentUser, login, logout } from './auth';
-import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles } from './users/user';
+import { getCurrentUser, login, logout, refresh } from './auth';
+import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles, createUserPassword } from './users/user';
 import { getRoles, updateRole } from './options/roles';
 import { createLeadSource, getLeadSource, getLeadSources, updateLeadSource } from './options/lead-sources';
 import { createPhase, getPhase, getPhases, updatePhase } from './options/phases';
@@ -20,6 +20,7 @@ class API {}
 API.prototype.login = login;
 API.prototype.logout = logout;
 API.prototype.getCurrentUser = getCurrentUser;
+API.prototype.refresh = refresh;
 
 // ============================= USERS ============================ //
 API.prototype.getUsers = getUsers;
@@ -28,6 +29,7 @@ API.prototype.getUser = getUser;
 API.prototype.addUser = addUser;
 API.prototype.changeUserPassword = changeUserPassword;
 API.prototype.setUserRoles = setUserRoles;
+API.prototype.createUserPassword = createUserPassword;
 
 // ============================= ROLES ============================ //
 API.prototype.getRoles = getRoles;

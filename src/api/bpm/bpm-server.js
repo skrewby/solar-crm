@@ -1,3 +1,4 @@
+import useAuth from 'hooks/useAuth';
 import wretch from 'wretch';
 
 class Server {
@@ -17,7 +18,30 @@ class Server {
       // Cors fetch options
       .options({ credentials: 'include', mode: 'cors' })
       .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
-      .errorType('json');
+      .errorType('json')
+      .catcher(401, async (error, request) => {
+        const res = await wretch()
+          .url(`${this.server_url}/auth/refresh`)
+          .options({ credentials: 'include', mode: 'cors' })
+          .post()
+          .json((res) => res);
+
+        if (res.data) {
+          window.sessionStorage.setItem('idToken', res.data.id_token);
+          return request
+            .auth(`Bearer ${window.sessionStorage.getItem('idToken')}`)
+            .fetch()
+            .unauthorized(() => {
+              const { logout } = useAuth();
+              logout();
+            })
+            .json();
+        } else {
+          window.sessionStorage.removeItem('idToken');
+          const { logout } = useAuth();
+          logout();
+        }
+      });
     return bpmServer;
   }
 }

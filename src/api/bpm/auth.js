@@ -12,6 +12,18 @@ export async function login(email, password) {
   return Promise.resolve(res);
 }
 
+export async function refresh() {
+  const res = await bpmServer
+    .api()
+    .url('/auth/refresh')
+    .post()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(res);
+}
+
 export async function getCurrentUser() {
   const res = await bpmServer
     .api()

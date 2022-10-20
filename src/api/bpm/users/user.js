@@ -71,3 +71,15 @@ export async function setUserRoles(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function createUserPassword(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/users/' + id + '/create-password')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
