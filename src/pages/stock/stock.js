@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-// Material UI
-import { IconButton, Stack } from '@mui/material';
+// material-ui
+import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-// Project Imports
+// project import
 import MainCard from 'components/MainCard';
-import { bpmAPI } from 'api/bpm/bpm-api';
-import EditableTable from 'components/tables/EditableTable';
+import PaginatedTable from 'components/tables/PaginatedTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
-import AddUserForm from './forms/AddUserForm';
-import MultiAutocompleteCell from 'components/tables/cells/MultiAutocompleteCell';
+import { bpmAPI } from 'api/bpm/bpm-api';
+import AddStockItemForm from 'sections/stock/forms/AddStockItemForm';
 
-const Users = () => {
+// ==============================|| SAMPLE PAGE ||============================== //
+
+const Stock = () => {
   const [data, setData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -20,7 +21,7 @@ const Users = () => {
     setData([]);
 
     try {
-      const result = await bpmAPI.getUsers();
+      const result = await bpmAPI.getStock();
       if (result.data) {
         setData(result.data);
       }
@@ -36,21 +37,24 @@ const Users = () => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'username'
+        Header: 'Type',
+        accessor: 'type'
       },
       {
-        Header: 'Email',
-        accessor: 'email'
+        Header: 'Brand',
+        accessor: 'brand'
       },
       {
-        Header: 'Contact',
-        accessor: 'phone'
+        Header: 'Series',
+        accessor: 'series'
       },
       {
-        Header: 'Roles',
-        accessor: 'roles',
-        Cell: MultiAutocompleteCell
+        Header: 'Model',
+        accessor: 'model'
+      },
+      {
+        Header: 'Count',
+        accessor: 'count'
       },
       {
         Header: 'Status',
@@ -61,6 +65,11 @@ const Users = () => {
     ],
     []
   );
+
+  const onAddStockItem = (values) => {
+    const newData = [...data, values];
+    setData(newData);
+  };
 
   const updateMyData = async (rowIndex, columnId, value) => {
     const newData = data.map((row, index) => {
@@ -75,9 +84,8 @@ const Users = () => {
     });
 
     try {
-      const result = await bpmAPI.updateUser(newData[rowIndex].id, newData[rowIndex]);
-      const role_result = await bpmAPI.setUserRoles(newData[rowIndex].id, { roles: newData[rowIndex].roles });
-      if (result.data && role_result.data) {
+      const result = await bpmAPI.updateStockItem(newData[rowIndex].id, newData[rowIndex]);
+      if (result.data) {
         setData(newData);
       }
     } catch (e) {
@@ -85,22 +93,20 @@ const Users = () => {
     }
   };
 
-  const onAddOption = (values) => {
-    const newData = [...data, values];
-    setData(newData);
-  };
-
   return (
-    <MainCard title="Users" content={false}>
-      <EditableTable columns={columns} data={data} updateMyData={updateMyData} />
-      <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 0.5 }}>
+    <MainCard
+      title="Items"
+      content={false}
+      secondary={
         <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
           <AddIcon />
         </IconButton>
-      </Stack>
-      <AddUserForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      }
+    >
+      <PaginatedTable columns={columns} data={data} updateMyData={updateMyData} />
+      <AddStockItemForm onFormSubmit={onAddStockItem} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </MainCard>
   );
 };
 
-export default Users;
+export default Stock;

@@ -13,6 +13,7 @@ import {
 import { addRoofType, getRoofType, getRoofTypes, updateRoofType } from './options/roof-types';
 import { addRoofPitch, getRoofPitch, getRoofPitches, updateRoofPitch } from './options/roof-pitch';
 import { addStockType, getStockType, getStockTypes, updateStockType } from './options/stock-types';
+import { getStock, getStockItem, addStockItem, updateStockItem } from './stock';
 import { bpmServer } from './bpm-server';
 
 class API {
@@ -81,5 +82,11 @@ API.prototype.getStockTypes = getStockTypes;
 API.prototype.getStockType = getStockType;
 API.prototype.addStockType = addStockType;
 API.prototype.updateStockType = updateStockType;
+
+// =========================== STOCK ============================== //
+API.prototype.getStock = getStock;
+API.prototype.getStockItem = getStockItem;
+API.prototype.addStockItem = addStockItem;
+API.prototype.updateStockItem = updateStockItem;
 
 export const bpmAPI = new API();
