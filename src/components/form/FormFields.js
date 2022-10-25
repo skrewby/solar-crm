@@ -9,6 +9,7 @@ import { InputField } from './fields/InputField';
 import { MultiAutocompleteField } from './fields/MultiAutocompleteField';
 import { PasswordField } from './fields/PasswordField';
 import { SelectField } from './fields/SelectField';
+import { UploadField } from './fields/UploadField';
 
 export const FormFields = ({ fields, formik, width = 6 }) => {
   return (
@@ -82,6 +83,23 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
                   onChange={formik.handleChange}
                   value={field.value}
                   placeholder={field.placeholder}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        } else if (field.variant === 'Upload') {
+          return (
+            <React.Fragment key={field.id}>
+              <Grid item xs={field.width || 6}>
+                <UploadField
+                  allowMultiple={field.multiple}
+                  formik={formik}
+                  name={field.name}
+                  onUpload={field.onUpload}
+                  onDelete={field.onDelete}
+                  label={field.label}
+                  touched={field.touched}
+                  error={field.error}
                 />
               </Grid>
             </React.Fragment>
