@@ -4,21 +4,42 @@ import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 // third-party
-import { useTable } from 'react-table';
+import { useFilters, usePagination, useTable } from 'react-table';
 
 // project import
 import MainCard from 'components/MainCard';
 import ScrollX from 'components/ScrollX';
+import { TablePagination } from 'components/third-party/ReactTable';
 
 // ==============================|| REACT TABLE ||============================== //
 
-function ReactTable({ columns, data, striped, updateMyData, initialState }) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data,
-    updateMyData,
-    initialState
-  });
+function ReactTable({ columns, data, updateMyData, initialState }) {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    // @ts-ignore
+    page,
+    prepareRow,
+    // @ts-ignore
+    gotoPage,
+    // @ts-ignore
+    setPageSize,
+    // @ts-ignore
+    state: { pageIndex, pageSize }
+  } = useTable(
+    {
+      columns,
+      data,
+      updateMyData,
+      // @ts-ignore
+      initialState: { ...initialState, pageIndex: 0, pageSize: 25 },
+      autoResetPage: false
+    },
+    useFilters,
+    usePagination
+  );
 
   return (
     <Table {...getTableProps()}>
@@ -33,19 +54,25 @@ function ReactTable({ columns, data, striped, updateMyData, initialState }) {
           </TableRow>
         ))}
       </TableHead>
-      <TableBody {...getTableBodyProps()} {...(striped && { className: 'striped' })}>
-        {rows.map((row, i) => {
+      <TableBody {...getTableBodyProps()}>
+        {page.map((row, i) => {
           prepareRow(row);
           return (
-            <TableRow {...row.getRowProps()} key={i}>
-              {row.cells.map((cell, i) => (
-                <TableCell key={i} {...cell.getCellProps([{ className: cell.column.className }])}>
+            <TableRow key={i} {...row.getRowProps()}>
+              {row.cells.map((cell, index) => (
+                <TableCell key={index} {...cell.getCellProps([{ className: cell.column.className }])}>
                   {cell.render('Cell')}
                 </TableCell>
               ))}
             </TableRow>
           );
         })}
+
+        <TableRow>
+          <TableCell sx={{ p: 1 }} colSpan={columns.length - initialState.hiddenColumns.length}>
+            <TablePagination gotoPage={gotoPage} rows={rows} setPageSize={setPageSize} pageIndex={pageIndex} pageSize={pageSize} />
+          </TableCell>
+        </TableRow>
       </TableBody>
     </Table>
   );
@@ -61,11 +88,11 @@ ReactTable.propTypes = {
 
 // ==============================|| REACT TABLE - BASIC ||============================== //
 
-const PaginatedTable = ({ columns, data, striped, title, updateMyData, initialState }) => {
+const PaginatedTable = ({ columns, data, title, updateMyData, initialState }) => {
   return (
     <MainCard content={false} title={title}>
       <ScrollX>
-        <ReactTable columns={columns} data={data} striped={striped} updateMyData={updateMyData} initialState={initialState} />
+        <ReactTable columns={columns} data={data} updateMyData={updateMyData} initialState={initialState} />
       </ScrollX>
     </MainCard>
   );
@@ -74,7 +101,6 @@ const PaginatedTable = ({ columns, data, striped, title, updateMyData, initialSt
 PaginatedTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.any,
-  striped: PropTypes.bool,
   title: PropTypes.string,
   updateMyData: PropTypes.func,
   initialState: PropTypes.any
