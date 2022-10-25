@@ -73,9 +73,9 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
 
   return (
     <Select
-      value={filterValue}
+      value={filterValue || ''}
       onChange={(e) => {
-        setFilter(e.target.value || undefined);
+        setFilter(e.target.value || '');
       }}
       displayEmpty
       size="small"
@@ -91,6 +91,26 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
 }
 
 SelectColumnFilter.propTypes = {
+  column: PropTypes.object
+};
+
+export function SelectBooleanColumnFilter({ column: { filterValue, setFilter } }) {
+  return (
+    <Select
+      value={filterValue || ''}
+      onChange={(e) => {
+        setFilter(e.target.value || '');
+      }}
+      displayEmpty
+      size="small"
+    >
+      <MenuItem value="">All</MenuItem>
+      <MenuItem value={true}>Enabled</MenuItem>
+    </Select>
+  );
+}
+
+SelectBooleanColumnFilter.propTypes = {
   column: PropTypes.object
 };
 

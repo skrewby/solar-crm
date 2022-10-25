@@ -4,15 +4,18 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
+// Third Party
+import { SelectColumnFilter, SelectBooleanColumnFilter } from 'utils/react-table';
+
 // project import
 import MainCard from 'components/MainCard';
-import PaginatedTable from 'components/tables/PaginatedTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import AddStockItemForm from 'sections/stock/forms/AddStockItemForm';
 import { DownloadOutlined, EditTwoTone } from '@ant-design/icons';
 import { useTheme } from '@mui/styles';
 import EditStockItemForm from 'sections/stock/forms/EditStockItemForm';
+import DataTable from 'components/tables/DataTable';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -45,35 +48,48 @@ const Stock = () => {
     () => [
       {
         Header: 'ID',
-        accessor: 'id'
+        accessor: 'id',
+        disableSortBy: true
       },
       {
         Header: 'Type',
-        accessor: 'type'
+        accessor: 'type',
+        Filter: SelectColumnFilter,
+        filter: 'includes',
+        disableSortBy: true
       },
       {
         Header: 'Type ID',
-        accessor: 'type_id'
+        accessor: 'type_id',
+        disableSortBy: true
       },
       {
         Header: 'Brand',
-        accessor: 'brand'
+        accessor: 'brand',
+        disableSortBy: true
       },
       {
         Header: 'Series',
-        accessor: 'series'
+        accessor: 'series',
+        disableSortBy: true
       },
       {
         Header: 'Model',
-        accessor: 'model'
+        accessor: 'model',
+        disableSortBy: true
       },
       {
         Header: 'Count',
-        accessor: 'count'
+        accessor: 'count',
+        enableGlobalFilter: false,
+        disableFilters: true
       },
       {
         Header: 'Datasheet',
         accessor: 'datasheet',
+        disableFilters: true,
+        disableSortBy: true,
+        enableGlobalFilter: false,
         // eslint-disable-next-line
         Cell: ({ row }) => {
           return (
@@ -106,6 +122,9 @@ const Stock = () => {
       {
         Header: 'Warranty',
         accessor: 'warranty',
+        disableFilters: true,
+        disableSortBy: true,
+        enableGlobalFilter: false,
         // eslint-disable-next-line
         Cell: ({ row }) => {
           return (
@@ -138,6 +157,9 @@ const Stock = () => {
       {
         Header: 'Status',
         accessor: 'active',
+        disableSortBy: true,
+        enableGlobalFilter: false,
+        Filter: SelectBooleanColumnFilter,
         // eslint-disable-next-line
         Cell: ToggleCell
       },
@@ -145,6 +167,8 @@ const Stock = () => {
         Header: 'Actions',
         className: 'cell-center',
         disableSortBy: true,
+        disableFilters: true,
+        enableGlobalFilter: false,
         // eslint-disable-next-line
         Cell: ({ row }) => {
           return (
@@ -176,7 +200,11 @@ const Stock = () => {
   );
 
   const tableInitialState = {
-    hiddenColumns: ['id', 'type_id']
+    hiddenColumns: ['id', 'type_id'],
+    filters: [
+      { id: 'type', value: '' },
+      { id: 'active', value: true }
+    ]
   };
 
   const onAddStockItem = (values) => {
@@ -226,7 +254,7 @@ const Stock = () => {
         </IconButton>
       }
     >
-      <PaginatedTable columns={columns} data={data} updateMyData={updateMyData} initialState={tableInitialState} />
+      <DataTable columns={columns} data={data} updateMyData={updateMyData} initialState={tableInitialState} />
       <AddStockItemForm onFormSubmit={onAddStockItem} openDialog={openDialog} setOpenDialog={setOpenDialog} />
       <EditStockItemForm item={item} onFormSubmit={onEditStockItem} openDialog={openEditDialog} setOpenDialog={setOpenEditDialog} />
     </MainCard>

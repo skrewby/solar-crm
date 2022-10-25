@@ -382,11 +382,11 @@ export const HidingSelect = ({ hiddenColumns, setHiddenColumns, allColumns }) =>
         input={<OutlinedInput id="select-column-hiding" placeholder="select column" />}
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return <Typography variant="subtitle1">all columns visible</Typography>;
+            return <Typography variant="subtitle1">All columns visible</Typography>;
           }
 
           if (selected.length > 0 && selected.length === allColumns.length) {
-            return <Typography variant="subtitle1">all columns hidden</Typography>;
+            return <Typography variant="subtitle1">All columns hidden</Typography>;
           }
 
           return <Typography variant="subtitle1">{selected.length} column(s) hidden</Typography>;
