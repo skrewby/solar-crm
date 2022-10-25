@@ -15,6 +15,7 @@ import { addRoofPitch, getRoofPitch, getRoofPitches, updateRoofPitch } from './o
 import { addStockType, getStockType, getStockTypes, updateStockType } from './options/stock-types';
 import { getStock, getStockItem, addStockItem, updateStockItem } from './stock';
 import { bpmServer } from './bpm-server';
+import { addFile, deleteFile, deleteFilepondFile, downloadFile, downloadMultipleFiles, getFile } from './files';
 
 class API {
   abort() {
@@ -88,5 +89,13 @@ API.prototype.getStock = getStock;
 API.prototype.getStockItem = getStockItem;
 API.prototype.addStockItem = addStockItem;
 API.prototype.updateStockItem = updateStockItem;
+
+// ============================ FILES ============================= //
+API.prototype.getFile = getFile;
+API.prototype.addFile = addFile;
+API.prototype.deleteFile = deleteFile;
+API.prototype.deleteFilepondFile = deleteFilepondFile;
+API.prototype.downloadFile = downloadFile;
+API.prototype.downloadMultipleFiles = downloadMultipleFiles;
 
 export const bpmAPI = new API();

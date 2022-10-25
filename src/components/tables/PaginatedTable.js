@@ -12,11 +12,12 @@ import ScrollX from 'components/ScrollX';
 
 // ==============================|| REACT TABLE ||============================== //
 
-function ReactTable({ columns, data, striped, updateMyData }) {
+function ReactTable({ columns, data, striped, updateMyData, initialState }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data,
-    updateMyData
+    updateMyData,
+    initialState
   });
 
   return (
@@ -54,16 +55,17 @@ ReactTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
   striped: PropTypes.bool,
-  updateMyData: PropTypes.func
+  updateMyData: PropTypes.func,
+  initialState: PropTypes.any
 };
 
 // ==============================|| REACT TABLE - BASIC ||============================== //
 
-const PaginatedTable = ({ columns, data, striped, title, updateMyData }) => {
+const PaginatedTable = ({ columns, data, striped, title, updateMyData, initialState }) => {
   return (
     <MainCard content={false} title={title}>
       <ScrollX>
-        <ReactTable columns={columns} data={data} striped={striped} updateMyData={updateMyData} />
+        <ReactTable columns={columns} data={data} striped={striped} updateMyData={updateMyData} initialState={initialState} />
       </ScrollX>
     </MainCard>
   );
@@ -74,7 +76,8 @@ PaginatedTable.propTypes = {
   data: PropTypes.any,
   striped: PropTypes.bool,
   title: PropTypes.string,
-  updateMyData: PropTypes.func
+  updateMyData: PropTypes.func,
+  initialState: PropTypes.any
 };
 
 export default PaginatedTable;

@@ -10,7 +10,7 @@ class Server {
   }
 
   uploadURL() {
-    const url = `${this.server_url}/api/upload`;
+    const url = `${this.server_url}/upload`;
     return url;
   }
 
