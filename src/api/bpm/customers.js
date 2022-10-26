@@ -47,3 +47,27 @@ export async function updateCustomer(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function addCustomerLog(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/customers/' + id + '/logs')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function getCustomerLogs(id) {
+  const response = await bpmServer
+    .api()
+    .url('/customers/' + id + '/logs')
+    .get()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}

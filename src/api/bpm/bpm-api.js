@@ -16,7 +16,7 @@ import { addStockType, getStockType, getStockTypes, updateStockType } from './op
 import { getStock, getStockItem, addStockItem, updateStockItem } from './stock';
 import { bpmServer } from './bpm-server';
 import { addFile, deleteFile, deleteFilepondFile, downloadFile, downloadMultipleFiles, getFile } from './files';
-import { addCustomer, getCustomer, getCustomers, updateCustomer } from './customers';
+import { addCustomer, addCustomerLog, getCustomer, getCustomerLogs, getCustomers, updateCustomer } from './customers';
 
 class API {
   abort() {
@@ -104,5 +104,7 @@ API.prototype.getCustomer = getCustomer;
 API.prototype.getCustomers = getCustomers;
 API.prototype.addCustomer = addCustomer;
 API.prototype.updateCustomer = updateCustomer;
+API.prototype.getCustomerLogs = getCustomerLogs;
+API.prototype.addCustomerLog = addCustomerLog;
 
 export const bpmAPI = new API();
