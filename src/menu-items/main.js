@@ -2,9 +2,10 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
-import WarehouseIcon from '@mui/icons-material/Warehouse';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
@@ -18,21 +19,28 @@ const main = {
       title: <FormattedMessage id="leads" />,
       type: 'item',
       url: '/leads',
-      icon: HeadsetMicIcon
+      icon: HeadsetMicOutlinedIcon
+    },
+    {
+      id: 'services',
+      title: <FormattedMessage id="services" />,
+      type: 'item',
+      url: '/services',
+      icon: BuildOutlinedIcon
     },
     {
       id: 'stock',
       title: <FormattedMessage id="stock" />,
       type: 'item',
       url: '/stock',
-      icon: WarehouseIcon
+      icon: WarehouseOutlinedIcon
     },
     {
       id: 'customers',
       title: <FormattedMessage id="customers" />,
       type: 'item',
       url: '/customers',
-      icon: AssignmentIndIcon
+      icon: AssignmentIndOutlinedIcon
     }
   ]
 };
