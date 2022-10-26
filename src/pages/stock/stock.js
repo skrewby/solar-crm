@@ -222,28 +222,6 @@ const Stock = () => {
     setData(newData);
   };
 
-  const updateMyData = async (rowIndex, columnId, value) => {
-    const newData = data.map((row, index) => {
-      if (index === rowIndex) {
-        return {
-          // @ts-ignore
-          ...data[rowIndex],
-          [columnId]: value
-        };
-      }
-      return row;
-    });
-
-    try {
-      const result = await bpmAPI.updateStockItem(newData[rowIndex].id, newData[rowIndex]);
-      if (result.data) {
-        setData(newData);
-      }
-    } catch (e) {
-      console.error(e.message.message);
-    }
-  };
-
   return (
     <MainCard
       title="Items"
@@ -254,7 +232,7 @@ const Stock = () => {
         </IconButton>
       }
     >
-      <DataTable columns={columns} data={data} updateMyData={updateMyData} initialState={tableInitialState} />
+      <DataTable columns={columns} data={data} initialState={tableInitialState} />
       <AddStockItemForm onFormSubmit={onAddStockItem} openDialog={openDialog} setOpenDialog={setOpenDialog} />
       <EditStockItemForm item={item} onFormSubmit={onEditStockItem} openDialog={openEditDialog} setOpenDialog={setOpenEditDialog} />
     </MainCard>

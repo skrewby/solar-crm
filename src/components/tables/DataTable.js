@@ -15,7 +15,7 @@ import { DefaultColumnFilter, GlobalFilter, renderFilterTypes } from 'utils/reac
 
 // ==============================|| REACT TABLE ||============================== //
 
-function ReactTable({ columns, data, updateMyData, initialState }) {
+function ReactTable({ columns, data, initialState }) {
   const filterTypes = useMemo(() => renderFilterTypes, []);
   const defaultColumn = useMemo(() => ({ Filter: DefaultColumnFilter }), []);
 
@@ -42,7 +42,6 @@ function ReactTable({ columns, data, updateMyData, initialState }) {
     {
       columns,
       data,
-      updateMyData,
       // @ts-ignore
       initialState: { ...initialState, pageIndex: 0, pageSize: 25 },
       autoResetPage: false,
@@ -119,17 +118,16 @@ ReactTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
   striped: PropTypes.bool,
-  updateMyData: PropTypes.func,
   initialState: PropTypes.any
 };
 
 // ==============================|| REACT TABLE - BASIC ||============================== //
 
-const DataTable = ({ columns, data, title, updateMyData, initialState }) => {
+const DataTable = ({ columns, data, title, initialState }) => {
   return (
     <MainCard content={false} title={title}>
       <ScrollX>
-        <ReactTable columns={columns} data={data} updateMyData={updateMyData} initialState={initialState} />
+        <ReactTable columns={columns} data={data} initialState={initialState} />
       </ScrollX>
     </MainCard>
   );
@@ -139,7 +137,6 @@ DataTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.any,
   title: PropTypes.string,
-  updateMyData: PropTypes.func,
   initialState: PropTypes.any
 };
 
