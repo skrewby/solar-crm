@@ -46,6 +46,7 @@ function ReactTable({ columns, data, updateMyData, initialState }) {
       // @ts-ignore
       initialState: { ...initialState, pageIndex: 0, pageSize: 25 },
       autoResetPage: false,
+      autoResetFilters: false,
       filterTypes,
       defaultColumn
     },
