@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, matchPath } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
@@ -37,13 +37,15 @@ const NavItem = ({ item, level }) => {
 
   // active menu item on page load
   useEffect(() => {
-    if (pathname && pathname.includes('product-details')) {
-      if (item.url && item.url.includes('product-details')) {
-        dispatch(activeItem({ openItem: [item.id] }));
-      }
-    }
-
-    if (pathname === item.url) {
+    const active = !!matchPath(
+      {
+        path: `${item.url}/*`,
+        exact: false,
+        strict: false
+      },
+      pathname
+    );
+    if (active) {
       dispatch(activeItem({ openItem: [item.id] }));
     }
     // eslint-disable-next-line
