@@ -94,6 +94,38 @@ SelectColumnFilter.propTypes = {
   column: PropTypes.object
 };
 
+export function SelectStatusFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
+  const options = useMemo(() => {
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
+
+  return (
+    <Select
+      value={filterValue || ''}
+      onChange={(e) => {
+        setFilter(e.target.value || '');
+      }}
+      displayEmpty
+      size="small"
+    >
+      <MenuItem value="">All</MenuItem>
+      {options.map((option, i) => (
+        <MenuItem key={i} value={option}>
+          {option.label}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+}
+
+SelectStatusFilter.propTypes = {
+  column: PropTypes.object
+};
+
 export function SelectBooleanColumnFilter({ column: { filterValue, setFilter } }) {
   return (
     <Select

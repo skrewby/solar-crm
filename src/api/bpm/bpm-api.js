@@ -17,6 +17,8 @@ import { getStock, getStockItem, addStockItem, updateStockItem } from './stock';
 import { bpmServer } from './bpm-server';
 import { addFile, deleteFile, deleteFilepondFile, downloadFile, downloadMultipleFiles, getFile } from './files';
 import { addCustomer, addCustomerLog, getCustomer, getCustomerLogs, getCustomers, updateCustomer } from './customers';
+import { addState, getState, getStates, updateState } from './options/state';
+import { addService, getService, getServices, updateService } from './services';
 
 class API {
   abort() {
@@ -91,6 +93,12 @@ API.prototype.getStockItem = getStockItem;
 API.prototype.addStockItem = addStockItem;
 API.prototype.updateStockItem = updateStockItem;
 
+// ========================== STATES ============================== //
+API.prototype.getState = getState;
+API.prototype.getStates = getStates;
+API.prototype.addState = addState;
+API.prototype.updateState = updateState;
+
 // ============================ FILES ============================= //
 API.prototype.getFile = getFile;
 API.prototype.addFile = addFile;
@@ -106,5 +114,11 @@ API.prototype.addCustomer = addCustomer;
 API.prototype.updateCustomer = updateCustomer;
 API.prototype.getCustomerLogs = getCustomerLogs;
 API.prototype.addCustomerLog = addCustomerLog;
+
+// ========================== SERVICES ============================ //
+API.prototype.getService = getService;
+API.prototype.getServices = getServices;
+API.prototype.addService = addService;
+API.prototype.updateService = updateService;
 
 export const bpmAPI = new API();
