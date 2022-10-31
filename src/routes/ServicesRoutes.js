@@ -7,6 +7,7 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // render - sample page
 const ServicesPage = Loadable(lazy(() => import('pages/services/services')));
+const ServicePage = Loadable(lazy(() => import('pages/services/service')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -30,7 +31,7 @@ const ServicesRoutes = {
             },
             {
               path: ':id',
-              element: <ServicesPage />
+              element: <ServicePage />
             }
           ]
         }

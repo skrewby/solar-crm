@@ -58,12 +58,14 @@ const ServicesTable = ({ data }) => {
         Header: 'Status',
         accessor: 'status',
         disableSortBy: true,
+        enableGlobalFilter: false,
         Filter: SelectStatusFilter,
         Cell: StatusCell
       },
       {
         Header: 'Visit',
         accessor: 'visit.date',
+        enableGlobalFilter: false,
         Cell: DateCell
       },
       {
@@ -71,6 +73,7 @@ const ServicesTable = ({ data }) => {
         accessor: 'finance.status',
         disableSortBy: true,
         Filter: SelectColumnFilter,
+        enableGlobalFilter: false,
         // eslint-disable-next-line react/prop-types
         Cell: ({ row }) => {
           // eslint-disable-next-line react/prop-types

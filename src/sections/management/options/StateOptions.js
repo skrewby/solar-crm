@@ -9,7 +9,7 @@ import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import EditableTable from 'components/tables/EditableTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
-import AddRoofTypeForm from './forms/AddRoofTypeForm';
+import AddStateForm from './forms/AddStateForm';
 
 const StateOptions = () => {
   const [data, setData] = useState([]);
@@ -83,7 +83,7 @@ const StateOptions = () => {
           <AddIcon />
         </IconButton>
       </Stack>
-      <AddRoofTypeForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <AddStateForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </MainCard>
   );
 };

@@ -3,6 +3,7 @@
 import { FormHelperText, Grid } from '@mui/material';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import { AutocompleteField } from './fields/AutocompleteField';
 
 // Project Import
 import { InputField } from './fields/InputField';
@@ -13,7 +14,7 @@ import { UploadField } from './fields/UploadField';
 
 export const FormFields = ({ fields, formik, width = 6 }) => {
   return (
-    <Grid item container spacing={2} xs={width}>
+    <Grid item container spacing={2} xs={12} md={width}>
       {fields.map((field) => {
         if (field.hidden) {
           return null;
@@ -82,6 +83,23 @@ export const FormFields = ({ fields, formik, width = 6 }) => {
                   options={field.options}
                   onChange={formik.handleChange}
                   value={field.value}
+                  placeholder={field.placeholder}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        } else if (field.variant === 'Autocomplete') {
+          return (
+            <React.Fragment key={field.id}>
+              <Grid item xs={field.width || 6}>
+                <AutocompleteField
+                  formik={field.formik}
+                  initialValue={field.initialValue}
+                  error={field.error}
+                  touched={field.touched}
+                  label={field.label}
+                  name={field.name}
+                  options={field.options}
                   placeholder={field.placeholder}
                 />
               </Grid>

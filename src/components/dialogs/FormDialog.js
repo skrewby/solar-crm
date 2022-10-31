@@ -1,20 +1,23 @@
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, useMediaQuery, useTheme } from '@mui/material';
 
 // Project Import
 import { FormFields } from 'components/form/FormFields';
 
 // ==============================|| FORM DIALOG ||============================== //
 
-export default function FormDialog({ open, onClose, title, formik, formikFields, submitText = 'Submit' }) {
+export default function FormDialog({ open, onClose, title, formik, formikFields, submitText = 'Submit', ...props }) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   const closeForm = () => {
     formik.resetForm();
     onClose();
   };
   return (
-    <Dialog open={open} onClose={closeForm}>
+    <Dialog fullScreen={fullScreen} open={open} onClose={closeForm} {...props}>
       <Box sx={{ p: 1, py: 1.5 }}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{<FormFields formik={formik} fields={formikFields} width={12} />}</DialogContent>
