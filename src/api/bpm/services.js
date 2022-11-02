@@ -47,3 +47,27 @@ export async function updateService(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function addServiceItem(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/items')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function updateServiceItem(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/items')
+    .patch(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}

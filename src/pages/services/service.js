@@ -8,7 +8,7 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 import { useParams } from 'react-router';
 import { Grid, Stack } from '@mui/material';
 import CustomerSummary from 'sections/general/CustomerSummary';
-import ServiceVisitDetails from 'sections/services/ServiceVisitDetails';
+import ServiceItems from 'sections/services/ServiceItems';
 import ServiceTimeline from 'sections/services/ServiceTimeline';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -117,11 +117,11 @@ const Service = () => {
                 ]}
               />
             )}
-            <ServiceVisitDetails data={data} />
+            {data.items && <ServiceItems service={data} getData={getData} />}
           </Stack>
         </Grid>
         <Grid item xs={12} md={3}>
-          <ServiceTimeline service_id={data.id} status={data.status ? data.status.id : 0} getData={getData} />
+          {data.visit && <ServiceTimeline service={data} status={data.status ? data.status.id : 0} getData={getData} />}
         </Grid>
       </Grid>
     </>

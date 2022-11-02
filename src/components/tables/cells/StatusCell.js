@@ -23,10 +23,8 @@ const StatusCell = ({ value }) => {
       />
       <Typography
         sx={{
-          colour,
           ml: 1.75
         }}
-        variant="body2"
       >
         {label}
       </Typography>
