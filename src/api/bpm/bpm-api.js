@@ -18,7 +18,7 @@ import { bpmServer } from './bpm-server';
 import { addFile, deleteFile, deleteFilepondFile, downloadFile, downloadMultipleFiles, getFile } from './files';
 import { addCustomer, addCustomerLog, getCustomer, getCustomerLogs, getCustomers, updateCustomer } from './customers';
 import { addState, getState, getStates, updateState } from './options/state';
-import { addService, addServiceItem, getService, getServices, updateService, updateServiceItem } from './services';
+import { addService, addServiceItem, deleteServiceItem, getService, getServices, updateService, updateServiceItem } from './services';
 
 class API {
   abort() {
@@ -122,5 +122,6 @@ API.prototype.addService = addService;
 API.prototype.updateService = updateService;
 API.prototype.addServiceItem = addServiceItem;
 API.prototype.updateServiceItem = updateServiceItem;
+API.prototype.deleteServiceItem = deleteServiceItem;
 
 export const bpmAPI = new API();

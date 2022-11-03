@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Material UI
-import { IconButton, Stack } from '@mui/material';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { Box, Checkbox, Grid, IconButton, Stack, TableContainer, Tooltip, Typography } from '@mui/material';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import AddIcon from '@mui/icons-material/Add';
 
 // Project Import
@@ -14,6 +14,7 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 
 const ServiceItems = ({ service, getData }) => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [paid, setPaid] = useState(service.finance.paid);
 
   const columns = useMemo(
     () => [
@@ -24,25 +25,52 @@ const ServiceItems = ({ service, getData }) => {
       {
         Header: 'Price',
         accessor: 'price'
+      },
+      {
+        Header: 'Actions',
+        className: 'cell-center',
+        disableSortBy: true,
+        disableFilters: true,
+        enableGlobalFilter: false,
+        // eslint-disable-next-line
+        Cell: ({ row }) => {
+          return (
+            <Stack direction="row" alignItems="center" justifyContent="center" spacing={0}>
+              <Tooltip title="Delete item">
+                {/* eslint-disable-next-line react/prop-types */}
+                <IconButton
+                  color="primary"
+                  onClick={async () => {
+                    // eslint-disable-next-line react/prop-types
+                    await bpmAPI.deleteServiceItem(service.id, row.original.id);
+                    getData();
+                  }}
+                >
+                  <DeleteTwoToneIcon color="error" />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+          );
+        }
       }
     ],
     []
   );
 
   const updateMyData = async (rowIndex, columnId, value) => {
-    // Add Item ID
-    const getUpdateBody = () => {
-      if (columnId === 'description') {
+    const newData = service.items.map((row, index) => {
+      if (index === rowIndex) {
         return {
-          description: value
-        };
-      } else if (columnId === 'price') {
-        return {
-          price: value
+          // @ts-ignore
+          ...service.items[rowIndex],
+          item_id: service.items[rowIndex].id,
+          [columnId]: value
         };
       }
-    };
-    await bpmAPI.updateServiceItem(service.id, getUpdateBody());
+      return row;
+    });
+
+    await bpmAPI.updateServiceItem(service.id, newData[rowIndex]);
     getData();
   };
 
@@ -50,17 +78,47 @@ const ServiceItems = ({ service, getData }) => {
     getData();
   };
 
+  const getTotalPrice = () => {
+    return service.items.map((item) => Number(item.price)).reduce((total, price) => total + price, 0);
+  };
+
+  const handlePaymentToggle = async (event) => {
+    setPaid(event.target.checked);
+    await bpmAPI.updateService(service.id, { paid: event.target.checked });
+  };
+
   return (
     <>
-      <MainCard
-        title="Items"
-        secondary={
-          <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
-            <EditTwoToneIcon />
-          </IconButton>
-        }
-      >
-        <EditableTable columns={columns} data={service.items} updateMyData={updateMyData} />
+      <MainCard title="Items" content={false} secondary={<Box sx={{ width: '1.5rem', height: '2.25rem' }} />}>
+        <Grid sx={{ p: 2.5 }} container direction="row" justifyContent="space-around" alignItems="center">
+          <Grid item>
+            <Grid container direction="column" spacing={1} alignItems="center" justifyContent="center">
+              <Grid item>
+                <Typography variant="subtitle2" color="secondary">
+                  Total Cost
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h4">{`$${getTotalPrice()}`}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container direction="column" spacing={1} alignItems="center" justifyContent="center">
+              <Grid item>
+                <Typography variant="subtitle2" color="secondary">
+                  Paid
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Checkbox checked={paid} onChange={handlePaymentToggle} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <TableContainer>
+          <EditableTable columns={columns} data={service.items} updateMyData={updateMyData} />
+        </TableContainer>
         <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 0.5 }}>
           <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
             <AddIcon />

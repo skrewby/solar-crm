@@ -71,3 +71,15 @@ export async function updateServiceItem(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function deleteServiceItem(id, item_id) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/items/' + item_id)
+    .delete()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}

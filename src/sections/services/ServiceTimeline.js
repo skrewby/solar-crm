@@ -20,6 +20,7 @@ const ServiceTimeline = ({ service, status, getData }) => {
   const [scheduled, setScheduled] = useState(service.visit?.scheduled);
   const [openCloseLeadDialog, setOpenCloseLeadDialog] = useState(false);
   const [openOpenLeadDialog, setOpenOpenLeadDialog] = useState(false);
+  const [openClearVisitDialog, setOpenClearVisitDialog] = useState(false);
 
   const getVisitDate = () => {
     if (scheduled) {
@@ -142,7 +143,7 @@ const ServiceTimeline = ({ service, status, getData }) => {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-              <IconButton justify="center" color="error" onClick={() => updateVisit(null)}>
+              <IconButton justify="center" color="error" onClick={() => setOpenClearVisitDialog(true)}>
                 <CloseIcon />
               </IconButton>
             </Stack>
@@ -195,6 +196,16 @@ const ServiceTimeline = ({ service, status, getData }) => {
         onConfirm={async () => {
           await bpmAPI.updateService(service.id, { status_id: 1 });
           getData();
+        }}
+      />
+      <ConfirmDialog
+        open={openClearVisitDialog}
+        onClose={() => setOpenClearVisitDialog(false)}
+        title="Cancel Visit"
+        description="Are you sure you want to cancel this visit?"
+        onConfirm={() => {
+          updateVisit(null);
+          setOpenClearVisitDialog(false);
         }}
       />
     </MainCard>
