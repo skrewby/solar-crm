@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Autocomplete, FormHelperText, InputLabel, Stack, TextField } from '@mui/material';
 
 export const AutocompleteField = ({ formik, initialValue, label, name, options, touched, error, placeholder = '' }) => {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue ?? null);
 
   return (
     <Stack spacing={1.25}>

@@ -15,9 +15,10 @@ import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import ConfirmDialog from 'components/dialogs/ConfirmDialog';
 
-const ServiceTimeline = ({ service, status, getData }) => {
+const ServiceTimeline = ({ service, status: initialStatus, getData }) => {
   const [visit, setVisit] = useState(service.visit?.date);
   const [scheduled, setScheduled] = useState(service.visit?.scheduled);
+  const [status, setStatus] = useState(initialStatus);
   const [openCloseLeadDialog, setOpenCloseLeadDialog] = useState(false);
   const [openOpenLeadDialog, setOpenOpenLeadDialog] = useState(false);
   const [openClearVisitDialog, setOpenClearVisitDialog] = useState(false);
@@ -55,7 +56,7 @@ const ServiceTimeline = ({ service, status, getData }) => {
 
   return (
     <MainCard title="Timeline" secondary={<Box sx={{ width: '1.5rem', height: '2.25rem' }} />}>
-      {status !== 5 && (
+      {initialStatus !== 5 && (
         <>
           <Timeline
             sx={{
@@ -81,8 +82,8 @@ const ServiceTimeline = ({ service, status, getData }) => {
           >
             <TimelineItem
               onClick={async () => {
-                await bpmAPI.updateService(service.id, { status_id: 1 });
-                getData();
+                const res = await bpmAPI.updateService(service.id, { status_id: 1 });
+                res.data && setStatus(1);
               }}
             >
               <TimelineSeparator>
@@ -97,8 +98,8 @@ const ServiceTimeline = ({ service, status, getData }) => {
             </TimelineItem>
             <TimelineItem
               onClick={async () => {
-                await bpmAPI.updateService(service.id, { status_id: 2 });
-                getData();
+                const res = await bpmAPI.updateService(service.id, { status_id: 2 });
+                res.data && setStatus(2);
               }}
             >
               <TimelineSeparator>
@@ -109,8 +110,8 @@ const ServiceTimeline = ({ service, status, getData }) => {
             </TimelineItem>
             <TimelineItem
               onClick={async () => {
-                await bpmAPI.updateService(service.id, { status_id: 3 });
-                getData();
+                const res = await bpmAPI.updateService(service.id, { status_id: 3 });
+                res.data && setStatus(3);
               }}
             >
               <TimelineSeparator>
@@ -121,8 +122,8 @@ const ServiceTimeline = ({ service, status, getData }) => {
             </TimelineItem>
             <TimelineItem
               onClick={async () => {
-                await bpmAPI.updateService(service.id, { status_id: 4 });
-                getData();
+                const res = await bpmAPI.updateService(service.id, { status_id: 4 });
+                res.data && setStatus(4);
               }}
               sx={{ minHeight: 'auto' }}
             >
@@ -162,7 +163,7 @@ const ServiceTimeline = ({ service, status, getData }) => {
           </Button>
         </>
       )}
-      {status === 5 && (
+      {initialStatus === 5 && (
         <>
           <Typography color="error">Closed</Typography>
           <Divider />

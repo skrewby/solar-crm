@@ -6,9 +6,9 @@ import { IconButton } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import AddCustomerForm from 'sections/customers/forms/AddCustomerForm';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import ServicesTable from 'sections/services/ServicesTable';
+import AddServiceForm from 'sections/services/forms/AddServiceForm';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -33,7 +33,8 @@ const Services = () => {
     getData();
   }, [getData]);
 
-  const onAddItem = (values) => {
+  const onAddService = (values) => {
+    console.log(values);
     const newData = [...data, values];
     setData(newData);
   };
@@ -51,7 +52,7 @@ const Services = () => {
       >
         <ServicesTable data={data} />
       </MainCard>
-      <AddCustomerForm onFormSubmit={onAddItem} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <AddServiceForm onFormSubmit={onAddService} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </>
   );
 };

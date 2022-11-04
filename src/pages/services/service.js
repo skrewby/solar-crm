@@ -117,7 +117,7 @@ const Service = () => {
                 ]}
               />
             )}
-            {data.items && data.finance && <ServiceItems service={data} getData={getData} />}
+            {data.items && data.finance && <ServiceItems service={data} />}
           </Stack>
         </Grid>
         <Grid item xs={12} md={3}>
