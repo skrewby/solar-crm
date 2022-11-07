@@ -4,7 +4,9 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 
 // material-ui
-import { MenuItem, OutlinedInput, Select, Slider, Stack, TextField, Tooltip } from '@mui/material';
+import { MenuItem, OutlinedInput, Select, Slider, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 // third-party
 import { useAsyncDebounce } from 'react-table';
@@ -15,6 +17,7 @@ import IconButton from 'components/@extended/IconButton';
 
 // assets
 import { CloseOutlined, LineOutlined, SearchOutlined } from '@ant-design/icons';
+import { formatISO, isValid, parseISO, setHours, setMinutes } from 'date-fns';
 
 export function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter, ...other }) {
   const count = preGlobalFilteredRows.length;
@@ -143,6 +146,119 @@ export function SelectBooleanColumnFilter({ column: { filterValue, setFilter } }
 }
 
 SelectBooleanColumnFilter.propTypes = {
+  column: PropTypes.object
+};
+
+export function DateColumnFilter({ column: { filterValue, setFilter } }) {
+  return (
+    <Stack direction="row" alignItems="center" spacing={1} sx={{ minWidth: 168, maxWidth: 250 }}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          inputFormat="dd/MM/yyyy"
+          value={filterValue || ''}
+          onChange={(e) => {
+            setFilter(e || '');
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+    </Stack>
+  );
+}
+
+DateColumnFilter.propTypes = {
+  column: PropTypes.object
+};
+
+export function DateRangeColumnFilter({ column: { filterValue = [], preFilteredRows, setFilter, id } }) {
+  const [min, max] = React.useMemo(() => {
+    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : formatISO(new Date(0));
+    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : formatISO(new Date(0));
+
+    preFilteredRows.forEach((row) => {
+      const rowDate = row.values[id];
+
+      min = rowDate <= min ? rowDate : min;
+      max = rowDate >= max ? rowDate : max;
+    });
+
+    return [min, max];
+  }, [id, preFilteredRows]);
+
+  return (
+    <Stack alignItems="center" spacing={1} sx={{ minWidth: 160, maxWidth: 160 }}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          minDate={parseISO(min)}
+          inputFormat="dd/MM/yyyy"
+          value={filterValue[0] || ''}
+          onChange={(e) => {
+            const val = isValid(e) ? formatISO(e) : null;
+            setFilter((old = []) => [val ? val : undefined, old[1]]);
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+        <Typography>TO</Typography>
+        <DatePicker
+          maxDate={parseISO(max)}
+          inputFormat="dd/MM/yyyy"
+          value={filterValue[1]?.slice(0, 10) || ''}
+          onChange={(e) => {
+            const val = isValid(e) ? formatISO(e) : null;
+            setFilter((old = []) => [old[0], val ? val : undefined]);
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+    </Stack>
+  );
+}
+
+DateRangeColumnFilter.propTypes = {
+  column: PropTypes.object
+};
+
+export function DateRangeColumnFilter2({ column: { filterValue = [], preFilteredRows, setFilter, id } }) {
+  const [min, max] = React.useMemo(() => {
+    let min = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0);
+    let max = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0);
+
+    preFilteredRows.forEach((row) => {
+      const rowDate = new Date(row.values[id]);
+
+      min = rowDate <= min ? rowDate : min;
+      max = rowDate >= max ? rowDate : max;
+    });
+
+    return [min, max];
+  }, [id, preFilteredRows]);
+
+  return (
+    <div>
+      <input
+        min={min.toISOString().slice(0, 10)}
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter((old = []) => [val ? val : undefined, old[1]]);
+        }}
+        type="date"
+        value={filterValue[0] || ''}
+      />
+      {' to '}
+      <input
+        max={max.toISOString().slice(0, 10)}
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter((old = []) => [old[0], val ? val.concat('T23:59:59.999Z') : undefined]);
+        }}
+        type="date"
+        value={filterValue[1]?.slice(0, 10) || ''}
+      />
+    </div>
+  );
+}
+
+DateRangeColumnFilter2.propTypes = {
   column: PropTypes.object
 };
 
@@ -277,4 +393,49 @@ export function roundedMedian(leafValues) {
   });
 
   return Math.round((min + max) / 2);
+}
+
+export function optionsFilterFunction(rows, id, filterValue) {
+  if (!filterValue) {
+    return rows;
+  }
+
+  return rows.filter((row) => {
+    const row_value = row.values[id];
+    return row_value.id === filterValue.id;
+  });
+}
+
+export function paidFilterFunction(rows, id, filterValue) {
+  if (!filterValue) {
+    return rows;
+  }
+
+  return rows.filter((row) => {
+    const row_value = row.values[id];
+    return row_value === filterValue;
+  });
+}
+
+export function dateBetweenFilterFunction(rows, id, filterValues) {
+  const sd = filterValues[0] ? parseISO(filterValues[0].split('T')[0]) : undefined;
+  const ed = filterValues[1] ? parseISO(filterValues[1].split('T')[0]) : undefined;
+
+  if (ed || sd) {
+    return rows.filter((r) => {
+      if (r.values[id]) {
+        const cellDate = setMinutes(setHours(parseISO(r.values[id]), 0), 0);
+
+        if (ed && sd) {
+          return cellDate >= sd && cellDate <= ed;
+        } else if (sd) {
+          return cellDate >= sd;
+        } else if (ed) {
+          return cellDate <= ed;
+        }
+      }
+    });
+  } else {
+    return rows;
+  }
 }

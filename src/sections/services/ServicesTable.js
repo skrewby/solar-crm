@@ -10,9 +10,16 @@ import { useTheme } from '@mui/styles';
 import DataTable from 'components/tables/DataTable';
 import DateCell from 'components/tables/cells/DateCell';
 import StatusCell from 'components/tables/cells/StatusCell';
-import { SelectColumnFilter, SelectStatusFilter } from 'utils/react-table';
+import {
+  dateBetweenFilterFunction,
+  DateRangeColumnFilter,
+  optionsFilterFunction,
+  paidFilterFunction,
+  SelectColumnFilter,
+  SelectStatusFilter
+} from 'utils/react-table';
 
-// ==============================|| SAMPLE PAGE ||============================== //
+// ==============================|| SERVICES TABLE ||============================== //
 
 const ServicesTable = ({ data }) => {
   const theme = useTheme();
@@ -60,19 +67,23 @@ const ServicesTable = ({ data }) => {
         disableSortBy: true,
         enableGlobalFilter: false,
         Filter: SelectStatusFilter,
+        filter: optionsFilterFunction,
         Cell: StatusCell
       },
       {
         Header: 'Visit',
         accessor: 'visit.date',
         enableGlobalFilter: false,
-        Cell: DateCell
+        Cell: DateCell,
+        Filter: DateRangeColumnFilter,
+        filter: dateBetweenFilterFunction
       },
       {
         Header: 'Paid',
         accessor: 'finance.status',
         disableSortBy: true,
         Filter: SelectColumnFilter,
+        filter: paidFilterFunction,
         enableGlobalFilter: false,
         // eslint-disable-next-line react/prop-types
         Cell: ({ row }) => {

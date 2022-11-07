@@ -31,10 +31,11 @@ const ServiceTimeline = ({ service, status: initialStatus, getData }) => {
   };
 
   const updateVisit = async (newValue) => {
-    setVisit(newValue);
-    if (newValue) {
+    const newVisit = newValue;
+    setVisit(newVisit);
+    if (newVisit) {
       setScheduled(true);
-      await bpmAPI.updateService(service.id, { visit_scheduled: true, visit: newValue });
+      await bpmAPI.updateService(service.id, { visit_scheduled: true, visit: newVisit });
     } else {
       setScheduled(false);
       await bpmAPI.updateService(service.id, { visit_scheduled: false });
@@ -138,6 +139,7 @@ const ServiceTimeline = ({ service, status: initialStatus, getData }) => {
             <Stack direction="row">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
+                  inputFormat="dd/MM/yyyy hh:mm aaa"
                   label="Visit"
                   value={getVisitDate()}
                   onChange={updateVisit}
