@@ -4,7 +4,20 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 
 // material-ui
-import { MenuItem, OutlinedInput, Select, Slider, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Slider,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+  useTheme
+} from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
@@ -100,8 +113,12 @@ SelectColumnFilter.propTypes = {
 export function SelectStatusFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
   const options = useMemo(() => {
     const options = new Set();
+    const keys = new Set();
     preFilteredRows.forEach((row) => {
-      options.add(row.values[id]);
+      if (!keys.has(row.values[id].id)) {
+        options.add(row.values[id]);
+        keys.add(row.values[id].id);
+      }
     });
     return [...options.values()];
   }, [id, preFilteredRows]);
@@ -171,6 +188,9 @@ DateColumnFilter.propTypes = {
 };
 
 export function DateRangeColumnFilter({ column: { filterValue = [], preFilteredRows, setFilter, id } }) {
+  const [expanded, setExpanded] = useState(false);
+  const { palette } = useTheme();
+
   const [min, max] = React.useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : formatISO(new Date(0));
     let max = preFilteredRows.length ? preFilteredRows[0].values[id] : formatISO(new Date(0));
@@ -186,79 +206,45 @@ export function DateRangeColumnFilter({ column: { filterValue = [], preFilteredR
   }, [id, preFilteredRows]);
 
   return (
-    <Stack alignItems="center" spacing={1} sx={{ minWidth: 160, maxWidth: 160 }}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          minDate={parseISO(min)}
-          inputFormat="dd/MM/yyyy"
-          value={filterValue[0] || ''}
-          onChange={(e) => {
-            const val = isValid(e) ? formatISO(e) : null;
-            setFilter((old = []) => [val ? val : undefined, old[1]]);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <Typography>TO</Typography>
-        <DatePicker
-          maxDate={parseISO(max)}
-          inputFormat="dd/MM/yyyy"
-          value={filterValue[1]?.slice(0, 10) || ''}
-          onChange={(e) => {
-            const val = isValid(e) ? formatISO(e) : null;
-            setFilter((old = []) => [old[0], val ? val : undefined]);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-    </Stack>
+    <Accordion
+      expanded={expanded}
+      onChange={() => {
+        setExpanded((prevState) => !prevState);
+      }}
+    >
+      <AccordionSummary sx={{ '&.MuiAccordionSummary-root': { backgroundColor: palette.grey[50], minHeight: 30 } }}></AccordionSummary>
+      <AccordionDetails>
+        <Stack alignItems="center" spacing={1} sx={{ minWidth: 160, maxWidth: 160 }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              minDate={parseISO(min)}
+              inputFormat="dd/MM/yyyy"
+              value={filterValue[0] || ''}
+              onChange={(e) => {
+                const val = isValid(e) ? formatISO(e) : null;
+                setFilter((old = []) => [val ? val : undefined, old[1]]);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <Typography>TO</Typography>
+            <DatePicker
+              maxDate={parseISO(max)}
+              inputFormat="dd/MM/yyyy"
+              value={filterValue[1]?.slice(0, 10) || ''}
+              onChange={(e) => {
+                const val = isValid(e) ? formatISO(e) : null;
+                setFilter((old = []) => [old[0], val ? val : undefined]);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Stack>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
 DateRangeColumnFilter.propTypes = {
-  column: PropTypes.object
-};
-
-export function DateRangeColumnFilter2({ column: { filterValue = [], preFilteredRows, setFilter, id } }) {
-  const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0);
-    let max = preFilteredRows.length ? new Date(preFilteredRows[0].values[id]) : new Date(0);
-
-    preFilteredRows.forEach((row) => {
-      const rowDate = new Date(row.values[id]);
-
-      min = rowDate <= min ? rowDate : min;
-      max = rowDate >= max ? rowDate : max;
-    });
-
-    return [min, max];
-  }, [id, preFilteredRows]);
-
-  return (
-    <div>
-      <input
-        min={min.toISOString().slice(0, 10)}
-        onChange={(e) => {
-          const val = e.target.value;
-          setFilter((old = []) => [val ? val : undefined, old[1]]);
-        }}
-        type="date"
-        value={filterValue[0] || ''}
-      />
-      {' to '}
-      <input
-        max={max.toISOString().slice(0, 10)}
-        onChange={(e) => {
-          const val = e.target.value;
-          setFilter((old = []) => [old[0], val ? val.concat('T23:59:59.999Z') : undefined]);
-        }}
-        type="date"
-        value={filterValue[1]?.slice(0, 10) || ''}
-      />
-    </div>
-  );
-}
-
-DateRangeColumnFilter2.propTypes = {
   column: PropTypes.object
 };
 
