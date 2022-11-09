@@ -17,7 +17,7 @@ export default function FormDialog({ open, onClose, title, formik, formikFields,
     onClose();
   };
   return (
-    <Dialog fullScreen={fullScreen} open={open} onClose={closeForm} {...props}>
+    <Dialog fullWidth fullScreen={fullScreen} open={open} onClose={closeForm} {...props}>
       <Box sx={{ p: 1, py: 1.5 }}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{<FormFields formik={formik} fields={formikFields} width={12} />}</DialogContent>

@@ -74,10 +74,6 @@ const ServiceFiles = ({ service, getData }) => {
     []
   );
 
-  const onAddItem = () => {
-    getData();
-  };
-
   return (
     <>
       <MainCard
@@ -93,7 +89,7 @@ const ServiceFiles = ({ service, getData }) => {
           <BasicTable columns={columns} data={files} />
         </TableContainer>
       </MainCard>
-      <AddServiceFileForm onFormSubmit={onAddItem} openDialog={openDialog} setOpenDialog={setOpenDialog} service_id={service.id} />
+      <AddServiceFileForm openDialog={openDialog} setOpenDialog={setOpenDialog} service_id={service.id} getData={getData} />
       <ConfirmDialog
         open={openDeleteItemDialog}
         onClose={() => setOpenDeleteItemDialog(false)}
