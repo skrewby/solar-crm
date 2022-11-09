@@ -47,9 +47,6 @@ class Server {
         } catch (err) {
           return request.json({ message: err.message });
         }
-      })
-      .catcher(403, async (error, request) => {
-        return request.json({ message: error.message });
       });
 
     if (mode === 'Abort') {

@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import PersonIcon from '@mui/icons-material/Person';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
@@ -16,7 +16,7 @@ const other = {
       title: <FormattedMessage id="account" />,
       type: 'item',
       url: '/user',
-      icon: PersonIcon
+      icon: PersonOutlineOutlinedIcon
     }
   ]
 };

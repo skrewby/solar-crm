@@ -132,7 +132,7 @@ const EditCustomerForm = ({ customer, openDialog, setOpenDialog, onFormSubmit })
   ];
 
   return (
-    <FormDialog open={openDialog} onClose={() => setOpenDialog(false)} title="Add Customer" formik={formik} formikFields={formikFields} />
+    <FormDialog open={openDialog} onClose={() => setOpenDialog(false)} title="Edit Customer" formik={formik} formikFields={formikFields} />
   );
 };
 

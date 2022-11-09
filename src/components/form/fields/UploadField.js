@@ -43,9 +43,9 @@ export const UploadField = ({ label, name, onUpload, onDelete, touched, error, f
       }
     }
 
-    if (onUpload) {
+    if (onUpload && response.data) {
       try {
-        onUpload(file, response.id);
+        onUpload(response.data);
       } catch (error) {
         console.log('Error on provided upload function');
         console.log(error.message);
@@ -58,9 +58,6 @@ export const UploadField = ({ label, name, onUpload, onDelete, touched, error, f
       console.log(error);
       return;
     }
-    // Save the id because it will disappear after deleting the file
-    const file_id = file.id;
-
     await bpmAPI.deleteFilepondFile(file.id);
 
     if (formik) {
@@ -69,7 +66,7 @@ export const UploadField = ({ label, name, onUpload, onDelete, touched, error, f
 
     if (onDelete) {
       try {
-        onDelete(file_id);
+        onDelete(file);
       } catch (error) {
         console.log('Error on provided delete function');
         console.log(error.message);

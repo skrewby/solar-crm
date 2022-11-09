@@ -9,10 +9,9 @@ import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import EditableTable from 'components/tables/EditableTable';
 import ToggleCell from 'components/tables/cells/ToggleCell';
-import AddUserForm from './forms/AddUserForm';
-import RoleSelectCell from 'components/tables/cells/RoleSelectCell';
+import AddStateForm from './forms/AddStateForm';
 
-const Users = () => {
+const StateOptions = () => {
   const [data, setData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -20,7 +19,7 @@ const Users = () => {
     setData([]);
 
     try {
-      const result = await bpmAPI.getUsers();
+      const result = await bpmAPI.getStates();
       if (result.data) {
         setData(result.data);
       }
@@ -36,21 +35,12 @@ const Users = () => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'username'
+        Header: 'Label',
+        accessor: 'label'
       },
       {
-        Header: 'Email',
-        accessor: 'email'
-      },
-      {
-        Header: 'Contact',
-        accessor: 'phone'
-      },
-      {
-        Header: 'Roles',
-        accessor: 'roles',
-        Cell: RoleSelectCell
+        Header: 'Reference',
+        accessor: 'reference'
       },
       {
         Header: 'Status',
@@ -74,14 +64,9 @@ const Users = () => {
       return row;
     });
 
-    try {
-      const result = await bpmAPI.updateUser(newData[rowIndex].id, newData[rowIndex]);
-      const role_result = await bpmAPI.setUserRoles(newData[rowIndex].id, { roles: newData[rowIndex].roles });
-      if (result.data && role_result.data) {
-        setData(newData);
-      }
-    } catch (e) {
-      console.error(e.message.message);
+    const result = await bpmAPI.updateState(newData[rowIndex].id, newData[rowIndex]);
+    if (result.data) {
+      setData(newData);
     }
   };
 
@@ -91,16 +76,16 @@ const Users = () => {
   };
 
   return (
-    <MainCard title="Users" content={false}>
+    <MainCard title="States" content={false}>
       <EditableTable columns={columns} data={data} updateMyData={updateMyData} />
       <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 0.5 }}>
         <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
           <AddIcon />
         </IconButton>
       </Stack>
-      <AddUserForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <AddStateForm onFormSubmit={onAddOption} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </MainCard>
   );
 };
 
-export default Users;
+export default StateOptions;

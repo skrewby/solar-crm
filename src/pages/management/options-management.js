@@ -10,6 +10,7 @@ import PhaseOptions from 'sections/management/options/PhaseOptions';
 import RoofTypeOptions from 'sections/management/options/RoofTypeOptions';
 import RoofPitchOptions from 'sections/management/options/RoofPitchOptions';
 import StockTypeOptions from 'sections/management/options/StockTypeOptions';
+import StateOptions from 'sections/management/options/StateOptions';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -38,6 +39,9 @@ const OptionsManagement = () => (
     </Grid>
     <Grid item sm={6} xs={12}>
       <StockTypeOptions />
+    </Grid>
+    <Grid item sm={6} xs={12}>
+      <StateOptions />
     </Grid>
   </Grid>
 );

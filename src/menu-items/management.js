@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 // assets
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import PeopleIcon from '@mui/icons-material/People';
+import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
 
@@ -24,7 +24,7 @@ const management = {
       title: <FormattedMessage id="users" />,
       type: 'item',
       url: '/users',
-      icon: PeopleIcon
+      icon: PeopleOutlineOutlinedIcon
     }
   ]
 };

@@ -5,7 +5,6 @@ import { Button, Stack } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
@@ -16,31 +15,13 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthCreatePassword = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const submitPasswordChange = async (values) => {
     const user_id = window.localStorage.getItem('user_id');
     const res = await bpmAPI.createUserPassword(user_id, values);
     if (res.data) {
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: 'Password Created',
-          variant: 'success',
-          close: false
-        })
-      );
       navigate('/');
-    } else {
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: res.message || 'Error',
-          variant: 'error',
-          close: false
-        })
-      );
     }
   };
 
