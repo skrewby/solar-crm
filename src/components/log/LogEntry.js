@@ -28,9 +28,20 @@ const LogEntry = ({ log }) => {
               {log.msg}
             </Typography>
           )}
-          <Typography color="textSecondary" variant="caption">
-            {`${format(parseISO(log.create_date), 'dd MMM yyyy HH:mm')}`}
-          </Typography>
+          {log.status ? (
+            <>
+              <Typography color="textSecondary" variant="caption">
+                {`${format(parseISO(log.create_date), 'dd MMM yyyy HH:mm')} - Status: `}
+              </Typography>
+              <Typography color={log.status_colour} variant="caption">
+                {log.status}
+              </Typography>
+            </>
+          ) : (
+            <Typography color="textSecondary" variant="caption">
+              {`${format(parseISO(log.create_date), 'dd MMM yyyy HH:mm')}`}
+            </Typography>
+          )}
         </Box>
       </Stack>
     </MainCard>

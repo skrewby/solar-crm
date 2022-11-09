@@ -11,6 +11,8 @@ import CustomerSummary from 'sections/general/CustomerSummary';
 import ServiceItems from 'sections/services/ServiceItems';
 import ServiceTimeline from 'sections/services/ServiceTimeline';
 import ServiceAddress from 'sections/services/ServiceAddress';
+import ServiceLogs from 'sections/services/ServiceLogs';
+import ServiceFiles from 'sections/services/ServiceFiles';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -120,6 +122,8 @@ const Service = () => {
             )}
             {data.property && <ServiceAddress service={data} onFormSubmit={() => getData()} />}
             {data.items && data.finance && <ServiceItems service={data} />}
+            {data.id && <ServiceFiles service={data} getData={getData} />}
+            {data.id && <ServiceLogs service={data} />}
           </Stack>
         </Grid>
         <Grid item xs={12} md={3}>

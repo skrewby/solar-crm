@@ -83,3 +83,63 @@ export async function deleteServiceItem(id, item_id) {
 
   return Promise.resolve(response);
 }
+
+export async function addServiceLog(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/logs')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function getServiceLogs(id) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/logs')
+    .get()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function addServiceFile(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/files')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function getServiceFiles(id) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + id + '/files')
+    .get()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function deleteServiceFile(service_id, file_id) {
+  const response = await bpmServer
+    .api()
+    .url('/services/' + service_id + '/files/' + file_id)
+    .delete()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
