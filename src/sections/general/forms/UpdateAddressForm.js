@@ -2,15 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
 
 // Project Imports
 import { bpmAPI } from 'api/bpm/bpm-api';
-import { openSnackbar } from 'store/reducers/snackbar';
 import FormDialog from 'components/dialogs/FormDialog';
 
-const UpdateServiceAddressForm = ({ service, openDialog, setOpenDialog, onFormSubmit }) => {
-  const dispatch = useDispatch();
+const UpdateAddressForm = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
   const [states, setStates] = useState([]);
 
   const getData = useCallback(async () => {
@@ -31,37 +28,17 @@ const UpdateServiceAddressForm = ({ service, openDialog, setOpenDialog, onFormSu
   }, [getData]);
 
   const submitForm = async (values) => {
-    const res = await bpmAPI.updateService(service.id, values);
-    if (res.data) {
-      onFormSubmit(res.data);
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: 'Address Updated',
-          variant: 'success',
-          close: false
-        })
-      );
-    } else {
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: res.message || 'Error',
-          variant: 'error',
-          close: false
-        })
-      );
-    }
+    onFormSubmit(values);
   };
 
   const formik = useFormik({
     enableReinitialize: true,
     validateOnChange: false,
     initialValues: {
-      street: service.property.street || '',
-      suburb: service.property.suburb || '',
-      state: service.property.state_id || '',
-      postcode: service.property.postcode || '',
+      street: data.property.street || '',
+      suburb: data.property.suburb || '',
+      state: data.property.state_id || '',
+      postcode: data.property.postcode || '',
       submit: null
     },
     validationSchema: Yup.object().shape({
@@ -132,11 +109,11 @@ const UpdateServiceAddressForm = ({ service, openDialog, setOpenDialog, onFormSu
   );
 };
 
-UpdateServiceAddressForm.propTypes = {
+UpdateAddressForm.propTypes = {
   openDialog: PropTypes.bool,
   setOpenDialog: PropTypes.func,
   onFormSubmit: PropTypes.func,
-  service: PropTypes.any
+  data: PropTypes.any
 };
 
-export default UpdateServiceAddressForm;
+export default UpdateAddressForm;

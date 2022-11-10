@@ -10,7 +10,7 @@ import { Grid, Stack } from '@mui/material';
 import CustomerSummary from 'sections/general/CustomerSummary';
 import ServiceItems from 'sections/services/ServiceItems';
 import ServiceTimeline from 'sections/services/ServiceTimeline';
-import ServiceAddress from 'sections/services/ServiceAddress';
+import PropertyAddress from 'sections/general/PropertyAddress';
 import ServiceLogs from 'sections/services/ServiceLogs';
 import ServiceFiles from 'sections/services/ServiceFiles';
 
@@ -42,6 +42,13 @@ const Service = () => {
   };
   const onCustomerFormSubmit = async (values) => {
     const res = await bpmAPI.updateService(id, values);
+    if (res.data) {
+      getData();
+    }
+  };
+
+  const onAddressFormSubmit = async (values) => {
+    const res = await bpmAPI.updateService(data.id, values);
     if (res.data) {
       getData();
     }
@@ -120,7 +127,7 @@ const Service = () => {
                 ]}
               />
             )}
-            {data.property && <ServiceAddress service={data} onFormSubmit={() => getData()} />}
+            {data.property && <PropertyAddress data={data} onFormSubmit={onAddressFormSubmit} />}
             {data.items && data.finance && <ServiceItems service={data} />}
             {data.id && <ServiceFiles service={data} getData={getData} />}
             {data.id && <ServiceLogs service={data} />}

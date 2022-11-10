@@ -7,9 +7,9 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // Project Import
 import MainCard from 'components/MainCard';
-import UpdateServiceAddressForm from './forms/UpdateServiceAddressForm';
+import UpdateAddressForm from './forms/UpdateAddressForm';
 
-const ServiceAddress = ({ service, onFormSubmit }) => {
+const PropertyAddress = ({ data, onFormSubmit }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (
@@ -26,43 +26,43 @@ const ServiceAddress = ({ service, onFormSubmit }) => {
           <Grid item xs={12} md={12}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Full Address</Typography>
-              <Typography>{service.property.address || '-'}</Typography>
+              <Typography>{data.property.address || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={12}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Street</Typography>
-              <Typography>{service.property.street || '-'}</Typography>
+              <Typography>{data.property.street || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={8}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Suburb</Typography>
-              <Typography>{service.property.suburb || '-'}</Typography>
+              <Typography>{data.property.suburb || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={2}>
             <Stack spacing={0.5}>
               <Typography color="secondary">State</Typography>
-              <Typography>{service.property.state || '-'}</Typography>
+              <Typography>{data.property.state || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={2}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Postcode</Typography>
-              <Typography>{service.property.postcode || '-'}</Typography>
+              <Typography>{data.property.postcode || '-'}</Typography>
             </Stack>
           </Grid>
         </Grid>
       </MainCard>
-      <UpdateServiceAddressForm service={service} openDialog={openDialog} setOpenDialog={setOpenDialog} onFormSubmit={onFormSubmit} />
+      <UpdateAddressForm data={data} openDialog={openDialog} setOpenDialog={setOpenDialog} onFormSubmit={onFormSubmit} />
     </>
   );
 };
 
-ServiceAddress.propTypes = {
-  service: PropTypes.any,
+PropertyAddress.propTypes = {
+  data: PropTypes.any,
   onFormSubmit: PropTypes.func
 };
 
-export default ServiceAddress;
+export default PropertyAddress;
