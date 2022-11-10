@@ -32,6 +32,20 @@ import {
   getServiceFiles,
   deleteServiceFile
 } from './services';
+import {
+  getLead,
+  getLeads,
+  addLead,
+  updateLead,
+  addLeadItem,
+  updateLeadItem,
+  deleteLeadItem,
+  addLeadLog,
+  getLeadLogs,
+  addLeadFile,
+  getLeadFiles,
+  deleteLeadFile
+} from './leads';
 
 class API {
   abort() {
@@ -141,5 +155,19 @@ API.prototype.getServiceLogs = getServiceLogs;
 API.prototype.addServiceFile = addServiceFile;
 API.prototype.getServiceFiles = getServiceFiles;
 API.prototype.deleteServiceFile = deleteServiceFile;
+
+// =========================== LEADS ============================== //
+API.prototype.getLead = getLead;
+API.prototype.getLeads = getLeads;
+API.prototype.addLead = addLead;
+API.prototype.updateLead = updateLead;
+API.prototype.addLeadItem = addLeadItem;
+API.prototype.updateLeadItem = updateLeadItem;
+API.prototype.deleteLeadItem = deleteLeadItem;
+API.prototype.addLeadLog = addLeadLog;
+API.prototype.getLeadLogs = getLeadLogs;
+API.prototype.addLeadFile = addLeadFile;
+API.prototype.getLeadFiles = getLeadFiles;
+API.prototype.deleteLeadFile = deleteLeadFile;
 
 export const bpmAPI = new API();
