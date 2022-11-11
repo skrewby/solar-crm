@@ -64,6 +64,13 @@ const LeadsTable = ({ data }) => {
         disableSortBy: true
       },
       {
+        Header: 'Sales',
+        accessor: 'sales.label',
+        disableSortBy: true,
+        Filter: SelectColumnFilter,
+        filter: 'includes'
+      },
+      {
         Header: 'Status',
         accessor: 'status',
         disableSortBy: true,
@@ -109,7 +116,7 @@ const LeadsTable = ({ data }) => {
   );
 
   const tableInitialState = {
-    hiddenColumns: ['id', 'customer.company_name', 'customer.company_abn', 'system.size', 'source.label']
+    hiddenColumns: ['id', 'customer.company_name', 'customer.company_abn', 'system.size', 'source.label', 'customer.email']
   };
 
   return <DataTable columns={columns} data={data} initialState={tableInitialState} />;

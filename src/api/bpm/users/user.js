@@ -1,5 +1,10 @@
 import { bpmServer } from 'api/bpm/bpm-server';
 
+const userHasRole = (user, roles) => {
+  const has_role = user.roles.some((a) => roles.includes(a.label));
+  return has_role;
+};
+
 export async function getUser(id) {
   const response = await bpmServer
     .api()
@@ -18,6 +23,22 @@ export async function getUsers() {
     .url('/users')
     .get()
     .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function getSalesUsers() {
+  const response = await bpmServer
+    .api()
+    .url('/users')
+    .get()
+    .json((response) => {
+      if (response.data) {
+        const sales = response.data.filter((user) => userHasRole(user, ['Sales']));
+        return { data: sales };
+      }
       return response;
     });
 

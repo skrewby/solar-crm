@@ -35,10 +35,10 @@ const UpdateAddressForm = ({ data, openDialog, setOpenDialog, onFormSubmit }) =>
     enableReinitialize: true,
     validateOnChange: false,
     initialValues: {
-      street: data.property.street || '',
-      suburb: data.property.suburb || '',
-      state: data.property.state_id || '',
-      postcode: data.property.postcode || '',
+      street: data.address.street || '',
+      suburb: data.address.suburb || '',
+      state: data.address.state_id || '',
+      postcode: data.address.postcode || '',
       submit: null
     },
     validationSchema: Yup.object().shape({

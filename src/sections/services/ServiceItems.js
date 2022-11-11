@@ -89,7 +89,7 @@ const ServiceItems = ({ service }) => {
 
   const handlePaymentToggle = async (event) => {
     setPaid(event.target.checked);
-    await bpmAPI.updateService(service.id, { paid: event.target.checked });
+    await bpmAPI.updateLead(service.id, { paid: event.target.checked });
   };
 
   return (

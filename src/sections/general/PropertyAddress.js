@@ -26,31 +26,31 @@ const PropertyAddress = ({ data, onFormSubmit }) => {
           <Grid item xs={12} md={12}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Full Address</Typography>
-              <Typography>{data.property.address || '-'}</Typography>
+              <Typography>{data.address.full || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={12}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Street</Typography>
-              <Typography>{data.property.street || '-'}</Typography>
+              <Typography>{data.address.street || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={8}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Suburb</Typography>
-              <Typography>{data.property.suburb || '-'}</Typography>
+              <Typography>{data.address.suburb || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={2}>
             <Stack spacing={0.5}>
               <Typography color="secondary">State</Typography>
-              <Typography>{data.property.state || '-'}</Typography>
+              <Typography>{data.address.state || '-'}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} md={2}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Postcode</Typography>
-              <Typography>{data.property.postcode || '-'}</Typography>
+              <Typography>{data.address.postcode || '-'}</Typography>
             </Stack>
           </Grid>
         </Grid>

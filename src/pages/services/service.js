@@ -127,7 +127,7 @@ const Service = () => {
                 ]}
               />
             )}
-            {data.property && <PropertyAddress data={data} onFormSubmit={onAddressFormSubmit} />}
+            {data.address && <PropertyAddress data={data} onFormSubmit={onAddressFormSubmit} />}
             {data.items && data.finance && <ServiceItems service={data} />}
             {data.id && <ServiceFiles service={data} getData={getData} />}
             {data.id && <ServiceLogs service={data} />}

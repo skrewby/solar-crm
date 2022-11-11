@@ -1,5 +1,5 @@
 import { getCurrentUser, login, logout, refresh } from './auth';
-import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles, createUserPassword } from './users/user';
+import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles, createUserPassword, getSalesUsers } from './users/user';
 import { getRoles, updateRole } from './options/roles';
 import { createLeadSource, getLeadSource, getLeadSources, updateLeadSource } from './options/lead-sources';
 import { createPhase, getPhase, getPhases, updatePhase } from './options/phases';
@@ -67,6 +67,7 @@ API.prototype.addUser = addUser;
 API.prototype.changeUserPassword = changeUserPassword;
 API.prototype.setUserRoles = setUserRoles;
 API.prototype.createUserPassword = createUserPassword;
+API.prototype.getSalesUsers = getSalesUsers;
 
 // ============================= ROLES ============================ //
 API.prototype.getRoles = getRoles;
@@ -146,7 +147,7 @@ API.prototype.addCustomerLog = addCustomerLog;
 API.prototype.getService = getService;
 API.prototype.getServices = getServices;
 API.prototype.addService = addService;
-API.prototype.updateService = updateService;
+API.prototype.updateLead = updateService;
 API.prototype.addServiceItem = addServiceItem;
 API.prototype.updateServiceItem = updateServiceItem;
 API.prototype.deleteServiceItem = deleteServiceItem;

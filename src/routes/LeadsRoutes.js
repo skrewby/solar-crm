@@ -7,6 +7,7 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // render
 const Leads = Loadable(lazy(() => import('pages/leads/leads')));
+const LeadPage = Loadable(lazy(() => import('pages/leads/lead')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -23,7 +24,16 @@ const LeadsRoutes = {
       children: [
         {
           path: 'leads',
-          element: <Leads />
+          children: [
+            {
+              path: '',
+              element: <Leads />
+            },
+            {
+              path: ':id',
+              element: <LeadPage />
+            }
+          ]
         }
       ]
     }
