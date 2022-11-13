@@ -34,7 +34,6 @@ const Services = () => {
   }, [getData]);
 
   const onAddService = (values) => {
-    console.log(values);
     const newData = [...data, values];
     setData(newData);
   };

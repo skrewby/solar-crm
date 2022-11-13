@@ -44,7 +44,10 @@ import {
   getLeadLogs,
   addLeadFile,
   getLeadFiles,
-  deleteLeadFile
+  deleteLeadFile,
+  addLeadSystemItem,
+  deleteLeadSystemItem,
+  updateLeadSystemItem
 } from './leads';
 
 class API {
@@ -149,7 +152,7 @@ API.prototype.getServices = getServices;
 API.prototype.addService = addService;
 API.prototype.updateLead = updateService;
 API.prototype.addServiceItem = addServiceItem;
-API.prototype.updateServiceItem = updateServiceItem;
+API.prototype.updateLeadItem = updateServiceItem;
 API.prototype.deleteServiceItem = deleteServiceItem;
 API.prototype.addServiceLog = addServiceLog;
 API.prototype.getServiceLogs = getServiceLogs;
@@ -170,5 +173,8 @@ API.prototype.getLeadLogs = getLeadLogs;
 API.prototype.addLeadFile = addLeadFile;
 API.prototype.getLeadFiles = getLeadFiles;
 API.prototype.deleteLeadFile = deleteLeadFile;
+API.prototype.addLeadSystemItem = addLeadSystemItem;
+API.prototype.deleteLeadSystemItem = deleteLeadSystemItem;
+API.prototype.updateLeadSystemItem = updateLeadSystemItem;
 
 export const bpmAPI = new API();

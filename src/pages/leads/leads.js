@@ -7,8 +7,8 @@ import { IconButton } from '@mui/material';
 // project import
 import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
-import AddServiceForm from 'sections/services/forms/AddServiceForm';
 import LeadsTable from 'sections/leads/LeadsTable';
+import AddLeadForm from 'sections/leads/forms/AddLeadForm';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -33,8 +33,7 @@ const Leads = () => {
     getData();
   }, [getData]);
 
-  const onAddService = (values) => {
-    console.log(values);
+  const onAddLead = (values) => {
     const newData = [...data, values];
     setData(newData);
   };
@@ -52,7 +51,7 @@ const Leads = () => {
       >
         <LeadsTable data={data} />
       </MainCard>
-      <AddServiceForm onFormSubmit={onAddService} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      <AddLeadForm onFormSubmit={onAddLead} openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </>
   );
 };

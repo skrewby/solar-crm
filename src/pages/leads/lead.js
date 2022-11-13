@@ -14,6 +14,7 @@ import { useParams } from 'react-router';
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import LeadTimeline from 'sections/leads/LeadTimeline';
 import LeadSummary from 'sections/leads/summary/LeadSummary';
+import LeadSystem from 'sections/leads/system/LeadSystem';
 
 // ==============================|| TAB PANEL ||============================== //
 function TabPanel({ children, value, index, ...other }) {
@@ -115,7 +116,14 @@ const Lead = () => {
           </Grid>
         </TabPanel>
         <TabPanel value={tab} index={1}>
-          <Typography variant="h6">System Under Construction</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={9}>
+              {data.system && <LeadSystem lead={data} setLead={setData} />}
+            </Grid>
+            <Grid item xs={12} md={3}>
+              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} />}
+            </Grid>
+          </Grid>
         </TabPanel>
         <TabPanel value={tab} index={2}>
           <Typography variant="h6">Finance Under Construction</Typography>
