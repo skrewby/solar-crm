@@ -8,6 +8,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 // Project Import
 import MainCard from 'components/MainCard';
 import UpdateLeadInfo from './forms/UpdateLeadInfo';
+import { bpmAPI } from 'api/bpm/bpm-api';
 
 const LeadInformation = ({ lead }) => {
   const [data, setData] = useState(lead);
@@ -28,6 +29,42 @@ const LeadInformation = ({ lead }) => {
         }
       >
         <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Panel Design</Typography>
+              <Typography
+                sx={{
+                  '&.MuiTypography-root': { cursor: 'pointer' }
+                }}
+                color={data.system.panel_design && 'primary'}
+                onClick={() => {
+                  if (data.system.panel_design) {
+                    bpmAPI.downloadFile(data.system.panel_design, `Panel Design - ${data.address.full}`);
+                  }
+                }}
+              >
+                {data.system.panel_design ? 'Download' : '-'}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Proposal</Typography>
+              <Typography
+                sx={{
+                  '&.MuiTypography-root': { cursor: 'pointer' }
+                }}
+                color={data.system.proposal && 'primary'}
+                onClick={() => {
+                  if (data.system.proposal) {
+                    bpmAPI.downloadFile(data.system.proposal, `Proposal - ${data.address.full}`);
+                  }
+                }}
+              >
+                {data.system.proposal ? 'Download' : '-'}
+              </Typography>
+            </Stack>
+          </Grid>
           <Grid item xs={12} md={12}>
             <Stack spacing={0.5}>
               <Typography color="secondary">Description</Typography>

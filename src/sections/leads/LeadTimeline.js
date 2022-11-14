@@ -12,7 +12,7 @@ import MainCard from 'components/MainCard';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import ConfirmDialog from 'components/dialogs/ConfirmDialog';
 
-const LeadTimeline = ({ data, status: initialStatus, getData }) => {
+const LeadTimeline = ({ data, status: initialStatus, getData, setLead }) => {
   const [status, setStatus] = useState(initialStatus);
   const [openCloseLeadDialog, setOpenCloseLeadDialog] = useState(false);
   const [openOpenLeadDialog, setOpenOpenLeadDialog] = useState(false);
@@ -61,6 +61,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
               onClick={async () => {
                 const res = await bpmAPI.updateLead(data.id, { status_id: 1 });
                 res.data && setStatus(1);
+                const result = await bpmAPI.getLead(data.id);
+                result.data && setLead(result.data);
               }}
             >
               <TimelineSeparator>
@@ -78,6 +80,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
               onClick={async () => {
                 const res = await bpmAPI.updateLead(data.id, { status_id: 2 });
                 res.data && setStatus(2);
+                const result = await bpmAPI.getLead(data.id);
+                result.data && setLead(result.data);
               }}
             >
               <TimelineSeparator>
@@ -91,6 +95,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
               onClick={async () => {
                 const res = await bpmAPI.updateLead(data.id, { status_id: 3 });
                 res.data && setStatus(3);
+                const result = await bpmAPI.getLead(data.id);
+                result.data && setLead(result.data);
               }}
             >
               <TimelineSeparator>
@@ -104,6 +110,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
               onClick={async () => {
                 const res = await bpmAPI.updateLead(data.id, { status_id: 4 });
                 res.data && setStatus(4);
+                const result = await bpmAPI.getLead(data.id);
+                result.data && setLead(result.data);
               }}
               sx={{ minHeight: 'auto' }}
             >
@@ -118,6 +126,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
               onClick={async () => {
                 const res = await bpmAPI.updateLead(data.id, { status_id: 5 });
                 res.data && setStatus(5);
+                const result = await bpmAPI.getLead(data.id);
+                result.data && setLead(result.data);
               }}
               sx={{ minHeight: 'auto' }}
             >
@@ -207,7 +217,8 @@ const LeadTimeline = ({ data, status: initialStatus, getData }) => {
 LeadTimeline.propTypes = {
   getData: PropTypes.func,
   data: PropTypes.any,
-  status: PropTypes.number
+  status: PropTypes.number,
+  setLead: PropTypes.any
 };
 
 export default LeadTimeline;

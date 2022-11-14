@@ -8,8 +8,9 @@ import CustomerSummary from 'sections/leads/CustomerSummary';
 import PropertyAddress from 'sections/general/PropertyAddress';
 import LeadInformation from 'sections/leads/summary/LeadInformation';
 import { bpmAPI } from 'api/bpm/bpm-api';
+import LeadProperty from './LeadProperty';
 
-const LeadSummary = ({ data, getData }) => {
+const LeadSummary = ({ data, getData, setLead }) => {
   const onCustomerFormSubmit = async () => {
     getData();
   };
@@ -63,13 +64,15 @@ const LeadSummary = ({ data, getData }) => {
       )}
       {data.address && <PropertyAddress data={data} onFormSubmit={onAddressFormSubmit} />}
       {data.sales && data.source && <LeadInformation lead={data} />}
+      {data.property && <LeadProperty lead={data} setLead={setLead} />}
     </Stack>
   );
 };
 
 LeadSummary.propTypes = {
   data: PropTypes.any,
-  getData: PropTypes.func
+  getData: PropTypes.func,
+  setLead: PropTypes.any
 };
 
 export default LeadSummary;

@@ -9,23 +9,23 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 import { openSnackbar } from 'store/reducers/snackbar';
 import FormDialog from 'components/dialogs/FormDialog';
 
-const UpdateLeadInfo = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
-  const [sales, setSales] = useState([]);
+const UpdateLeadProperty = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
+  const [phases, setPhases] = useState([]);
+  const [existingSystems, setExistingSystems] = useState([]);
   const dispatch = useDispatch();
 
   const getData = useCallback(async () => {
-    setSales([]);
+    setPhases([]);
 
     try {
-      const usersResult = await bpmAPI.getSalesUsers();
-      if (usersResult.data) {
-        const salesResult = usersResult.data.map((user) => {
-          return {
-            id: user.id,
-            label: user.username
-          };
-        });
-        setSales(salesResult);
+      const phasesResult = await bpmAPI.getPhases();
+      if (phasesResult.data) {
+        setPhases(phasesResult.data);
+      }
+
+      const existingSystemResult = await bpmAPI.getExistingSystemOptions();
+      if (existingSystemResult.data) {
+        setExistingSystems(existingSystemResult.data);
       }
     } catch (err) {
       console.error(err);
@@ -64,13 +64,13 @@ const UpdateLeadInfo = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
     enableReinitialize: true,
     validateOnChange: true,
     initialValues: {
-      description: data.description || '',
-      sales_id: data.sales.id || '',
+      phase_id: data.property.phase_id || '',
+      existing_system_id: data.property.existing_system_id || '',
       submit: null
     },
     validationSchema: Yup.object().shape({
-      description: Yup.string(),
-      sales_id: Yup.string()
+      phase_id: Yup.string(),
+      existing_system_id: Yup.string()
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -88,46 +88,25 @@ const UpdateLeadInfo = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
   const formikFields = [
     {
       id: 1,
-      width: 12,
-      variant: 'Input',
-      touched: formik.touched.description,
-      error: formik.errors.description,
-      value: formik.values.description,
-      label: 'Description',
-      name: 'description'
+      width: 6,
+      variant: 'Select',
+      touched: formik.touched.phase_id,
+      error: formik.errors.phase_id,
+      value: formik.values.phase_id,
+      label: 'Phases',
+      name: 'phase_id',
+      options: phases
     },
     {
       id: 2,
-      width: 12,
-      variant: 'Autocomplete',
-      touched: formik.touched.sales_id,
-      error: formik.errors.sales_id,
-      value: formik.values.sales_id,
-      initialValue: data.sales,
-      label: 'Sales',
-      name: 'sales_id',
-      formik: formik,
-      options: sales
-    },
-    {
-      id: 3,
-      width: 12,
-      variant: 'Upload',
-      touched: formik.touched.panel_design,
-      error: formik.errors.panel_design,
-      formik: formik,
-      label: 'Update Panel Design',
-      name: 'panel_design'
-    },
-    {
-      id: 4,
-      width: 12,
-      variant: 'Upload',
-      touched: formik.touched.proposal,
-      error: formik.errors.proposal,
-      formik: formik,
-      label: 'Update Proposal',
-      name: 'proposal'
+      width: 6,
+      variant: 'Select',
+      touched: formik.touched.existing_system_id,
+      error: formik.errors.existing_system_id,
+      value: formik.values.existing_system_id,
+      label: 'Existing System',
+      name: 'existing_system_id',
+      options: existingSystems
     }
   ];
 
@@ -136,11 +115,11 @@ const UpdateLeadInfo = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
   );
 };
 
-UpdateLeadInfo.propTypes = {
+UpdateLeadProperty.propTypes = {
   openDialog: PropTypes.bool,
   setOpenDialog: PropTypes.func,
   onFormSubmit: PropTypes.func,
   data: PropTypes.any
 };
 
-export default UpdateLeadInfo;
+export default UpdateLeadProperty;

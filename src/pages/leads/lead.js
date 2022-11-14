@@ -15,6 +15,7 @@ import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import LeadTimeline from 'sections/leads/LeadTimeline';
 import LeadSummary from 'sections/leads/summary/LeadSummary';
 import LeadSystem from 'sections/leads/system/LeadSystem';
+import LeadLogs from 'sections/leads/logs/LeadLogs';
 
 // ==============================|| TAB PANEL ||============================== //
 function TabPanel({ children, value, index, ...other }) {
@@ -108,10 +109,10 @@ const Lead = () => {
         <TabPanel value={tab} index={0}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={9}>
-              <LeadSummary data={data} getData={getData} />
+              <LeadSummary data={data} getData={getData} setLead={setData} />
             </Grid>
             <Grid item xs={12} md={3}>
-              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} />}
+              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
             </Grid>
           </Grid>
         </TabPanel>
@@ -121,7 +122,7 @@ const Lead = () => {
               {data.system && <LeadSystem lead={data} setLead={setData} />}
             </Grid>
             <Grid item xs={12} md={3}>
-              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} />}
+              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
             </Grid>
           </Grid>
         </TabPanel>
@@ -129,7 +130,14 @@ const Lead = () => {
           <Typography variant="h6">Finance Under Construction</Typography>
         </TabPanel>
         <TabPanel value={tab} index={3}>
-          <Typography variant="h6">Log Under Construction</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={9}>
+              {data.system && <LeadLogs lead={data} />}
+            </Grid>
+            <Grid item xs={12} md={3}>
+              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
+            </Grid>
+          </Grid>
         </TabPanel>
       </Box>
     </>

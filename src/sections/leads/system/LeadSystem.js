@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Material UI
-import { Box, Grid, IconButton, Stack, TableContainer, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, InputAdornment, Stack, TableContainer, TextField, Tooltip, Typography } from '@mui/material';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -19,6 +19,34 @@ const LeadSystem = ({ lead, setLead }) => {
   // Item chosen when the delete item button is pressed
   const [selectedItem, setSelectedItem] = useState({});
   const [openDeleteItemDialog, setOpenDeleteItemDialog] = useState(false);
+
+  const EditableText = () => {
+    const [value, setValue] = useState(lead.system.size);
+
+    const onChange = (e) => {
+      setValue(e.target?.value);
+    };
+
+    const onBlur = async (e) => {
+      if (e.target?.value) {
+        await bpmAPI.updateLead(lead.id, { system_size: e.target?.value });
+        const result = await bpmAPI.getLead(lead.id);
+        result.data && setLead(result.data);
+      }
+    };
+
+    return (
+      <TextField
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        sx={{ width: 120, '& .MuiOutlinedInput-input': { py: 0.75, px: 1 }, '& .MuiOutlinedInput-notchedOutline': { border: 'none' } }}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">kW</InputAdornment>
+        }}
+      />
+    );
+  };
 
   const columns = useMemo(
     () => [
@@ -108,7 +136,7 @@ const LeadSystem = ({ lead, setLead }) => {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4">{`${lead.system.size} kw`}</Typography>
+                <EditableText />
               </Grid>
             </Grid>
           </Grid>
