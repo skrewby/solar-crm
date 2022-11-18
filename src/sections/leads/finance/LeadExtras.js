@@ -24,7 +24,7 @@ const LeadExtras = ({ lead, setLead }) => {
   const [isDiscount, setIsDiscount] = useState(true);
 
   const SellingPrice = () => {
-    const [value, setValue] = useState(lead.finance.selling_price);
+    const [value, setValue] = useState(lead.finance.selling_price || 0);
 
     const onChange = (e) => {
       setValue(e.target?.value);
@@ -52,7 +52,7 @@ const LeadExtras = ({ lead, setLead }) => {
   };
 
   const BasePrice = () => {
-    const [value, setValue] = useState(lead.finance.base_price);
+    const [value, setValue] = useState(lead.finance.base_price || 0);
 
     const onChange = (e) => {
       setValue(e.target?.value);
@@ -87,7 +87,11 @@ const LeadExtras = ({ lead, setLead }) => {
 
     const d = ((inPrice - Number(lead.finance.selling_price)) / Number(lead.finance.selling_price)) * 100;
     const dis = d.toFixed(2);
-    setDiscount(dis);
+    if (isNaN(dis)) {
+      setDiscount(0);
+    } else {
+      setDiscount(dis);
+    }
 
     if (dis <= 0) {
       setIsDiscount(false);

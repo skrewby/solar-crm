@@ -248,12 +248,20 @@ const AddLeadForm = ({ openDialog, setOpenDialog, onFormSubmit }) => {
       label: 'Source',
       name: 'source_id',
       options: sources
+    },
+    {
+      id: 13,
+      width: 12,
+      variant: 'Input',
+      touched: formik.touched.description,
+      error: formik.errors.description,
+      value: formik.values.description,
+      label: 'Description',
+      name: 'description'
     }
   ];
 
-  return (
-    <FormDialog open={openDialog} onClose={() => setOpenDialog(false)} title="Add Customer" formik={formik} formikFields={formikFields} />
-  );
+  return <FormDialog open={openDialog} onClose={() => setOpenDialog(false)} title="Add Lead" formik={formik} formikFields={formikFields} />;
 };
 
 AddLeadForm.propTypes = {
