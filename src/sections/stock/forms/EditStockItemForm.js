@@ -72,7 +72,7 @@ const EditStockItemForm = ({ item, openDialog, setOpenDialog, onFormSubmit }) =>
       brand: Yup.string().required('Required'),
       series: Yup.string(),
       model: Yup.string().required('Required'),
-      count: Yup.number().positive().required('Required'),
+      count: Yup.number().required('Required'),
       datasheet: Yup.string(),
       warranty: Yup.string()
     }),

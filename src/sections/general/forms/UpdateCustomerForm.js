@@ -57,7 +57,9 @@ const UpdateCustomerForm = ({ customer, openDialog, setOpenDialog, onFormSubmit 
     }),
     onSubmit: async (values, helpers) => {
       try {
-        onFormSubmit(values);
+        // eslint-disable-next-line no-unused-vars
+        const form_values = Object.fromEntries(Object.entries(values).filter(([_, v]) => v !== null && v !== ''));
+        onFormSubmit(form_values);
         helpers.resetForm();
         helpers.setStatus({ success: true });
         helpers.setSubmitting(false);

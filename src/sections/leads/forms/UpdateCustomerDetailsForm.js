@@ -8,11 +8,11 @@ import { bpmAPI } from 'api/bpm/bpm-api';
 import { openSnackbar } from 'store/reducers/snackbar';
 import FormDialog from 'components/dialogs/FormDialog';
 
-const EditCustomerForm = ({ customer, openDialog, setOpenDialog, onFormSubmit }) => {
+const UpdateCustomerDetailsForm = ({ data, openDialog, setOpenDialog, onFormSubmit }) => {
   const dispatch = useDispatch();
 
   const submitForm = async (values) => {
-    const res = await bpmAPI.updateCustomer(customer.id, values);
+    const res = await bpmAPI.updateLead(data.id, values);
     if (res.data) {
       onFormSubmit(res.data);
       dispatch(
@@ -39,12 +39,12 @@ const EditCustomerForm = ({ customer, openDialog, setOpenDialog, onFormSubmit })
     enableReinitialize: true,
     validateOnChange: true,
     initialValues: {
-      first_name: customer.first_name || '',
-      last_name: customer.last_name || '',
-      company_name: customer.company_name || '',
-      company_abn: customer.company_abn || '',
-      email: customer.email || '',
-      phone: customer.phone || '',
+      first_name: data.customer.first_name || '',
+      last_name: data.customer.last_name || '',
+      company_name: data.customer.company_name || '',
+      company_abn: data.customer.company_abn || '',
+      email: data.customer.email || '',
+      phone: data.customer.phone || '',
       submit: null
     },
     validationSchema: Yup.object().shape({
@@ -138,11 +138,11 @@ const EditCustomerForm = ({ customer, openDialog, setOpenDialog, onFormSubmit })
   );
 };
 
-EditCustomerForm.propTypes = {
+UpdateCustomerDetailsForm.propTypes = {
   openDialog: PropTypes.bool,
   setOpenDialog: PropTypes.func,
   onFormSubmit: PropTypes.func,
-  customer: PropTypes.any
+  data: PropTypes.any
 };
 
-export default EditCustomerForm;
+export default UpdateCustomerDetailsForm;

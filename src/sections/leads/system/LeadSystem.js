@@ -2,34 +2,69 @@ import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Material UI
-import { Box, Checkbox, Grid, IconButton, Stack, TableContainer, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, InputAdornment, Stack, TableContainer, TextField, Tooltip, Typography } from '@mui/material';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import AddIcon from '@mui/icons-material/Add';
 
 // Project Import
 import MainCard from 'components/MainCard';
 import EditableTable from 'components/tables/EditableTable';
-import AddServiceItemForm from './forms/AddServiceItemForm';
 import { bpmAPI } from 'api/bpm/bpm-api';
 import ConfirmDialog from 'components/dialogs/ConfirmDialog';
+import AddLeadSystemItemForm from './forms/AddLeadSystemItemForm';
 
-const ServiceItems = ({ service }) => {
+const LeadSystem = ({ lead, setLead }) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [items, setItems] = useState(service.items);
+  const [items, setItems] = useState(lead.system.items);
   // Item chosen when the delete item button is pressed
   const [selectedItem, setSelectedItem] = useState({});
-  const [paid, setPaid] = useState(service.finance.paid);
   const [openDeleteItemDialog, setOpenDeleteItemDialog] = useState(false);
+
+  const EditableText = () => {
+    const [value, setValue] = useState(lead.system.size);
+
+    const onChange = (e) => {
+      setValue(e.target?.value);
+    };
+
+    const onBlur = async (e) => {
+      if (e.target?.value) {
+        await bpmAPI.updateLead(lead.id, { system_size: e.target?.value });
+        const result = await bpmAPI.getLead(lead.id);
+        result.data && setLead(result.data);
+      }
+    };
+
+    return (
+      <TextField
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        sx={{ width: 110, '& .MuiOutlinedInput-input': { py: 0.75, px: 1 }, '& .MuiOutlinedInput-notchedOutline': { border: 'none' } }}
+        InputProps={{
+          endAdornment: <InputAdornment position="end">kW</InputAdornment>
+        }}
+      />
+    );
+  };
 
   const columns = useMemo(
     () => [
       {
-        Header: 'Description',
-        accessor: 'description'
+        Header: 'Brand',
+        accessor: 'brand'
       },
       {
-        Header: 'Price',
-        accessor: 'price'
+        Header: 'Series',
+        accessor: 'series'
+      },
+      {
+        Header: 'Model',
+        accessor: 'model'
+      },
+      {
+        Header: 'Amount',
+        accessor: 'amount'
       },
       {
         Header: 'Actions',
@@ -63,33 +98,30 @@ const ServiceItems = ({ service }) => {
   );
 
   const updateMyData = async (rowIndex, columnId, value) => {
-    const newData = items.map((row, index) => {
-      if (index === rowIndex) {
-        return {
-          // @ts-ignore
-          ...items[rowIndex],
-          item_id: items[rowIndex].id,
-          [columnId]: value
-        };
-      }
-      return row;
-    });
+    if (columnId === 'amount') {
+      const newData = items.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            // @ts-ignore
+            ...items[rowIndex],
+            item_id: items[rowIndex].id,
+            [columnId]: value
+          };
+        }
+        return row;
+      });
 
-    const res = await bpmAPI.updateLeadItem(service.id, newData[rowIndex]);
-    res.data && setItems(newData);
+      const res = await bpmAPI.updateLeadSystemItem(lead.id, newData[rowIndex]);
+      res.data && setItems(newData);
+      const result = await bpmAPI.getLead(lead.id);
+      result.data && setLead(result.data);
+    }
   };
 
-  const onAddItem = (data) => {
-    data && setItems([...items, data]);
-  };
-
-  const getTotalPrice = () => {
-    return items.map((item) => Number(item.price)).reduce((total, price) => total + price, 0);
-  };
-
-  const handlePaymentToggle = async (event) => {
-    setPaid(event.target.checked);
-    await bpmAPI.updateLead(service.id, { paid: event.target.checked });
+  const onAddItem = async () => {
+    const result = await bpmAPI.getLead(lead.id);
+    result.data.system && setItems(result.data.system.items);
+    result.data && setLead(result.data);
   };
 
   return (
@@ -100,23 +132,11 @@ const ServiceItems = ({ service }) => {
             <Grid container direction="column" spacing={1} alignItems="center" justifyContent="center">
               <Grid item>
                 <Typography variant="subtitle2" color="secondary">
-                  Total Cost
+                  System Size
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4">{`$${getTotalPrice()}`}</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="column" spacing={1} alignItems="center" justifyContent="center">
-              <Grid item>
-                <Typography variant="subtitle2" color="secondary">
-                  Paid
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Checkbox checked={paid} onChange={handlePaymentToggle} />
+                <EditableText />
               </Grid>
             </Grid>
           </Grid>
@@ -130,21 +150,23 @@ const ServiceItems = ({ service }) => {
           </IconButton>
         </Stack>
       </MainCard>
-      <AddServiceItemForm onFormSubmit={onAddItem} openDialog={openDialog} setOpenDialog={setOpenDialog} service_id={service.id} />
+      <AddLeadSystemItemForm onFormSubmit={onAddItem} openDialog={openDialog} setOpenDialog={setOpenDialog} id={lead.id} />
       <ConfirmDialog
         open={openDeleteItemDialog}
         onClose={() => setOpenDeleteItemDialog(false)}
         title="Delete Item"
-        description="Are you sure you want to delete this service item?"
+        description="Are you sure you want to delete this item?"
         onConfirm={async () => {
           // eslint-disable-next-line react/prop-types
-          const res = await bpmAPI.deleteServiceItem(service.id, selectedItem.id);
+          const res = await bpmAPI.deleteLeadSystemItem(lead.id, selectedItem.id);
           if (res.message === 'Item Deleted') {
             // eslint-disable-next-line react/prop-types
             const newData = items.filter((item) => item.id !== selectedItem.id);
-
             setItems(newData);
           }
+          const result = await bpmAPI.getLead(lead.id);
+          result.data && setLead(result.data);
+
           setOpenDeleteItemDialog(false);
         }}
       />
@@ -152,8 +174,9 @@ const ServiceItems = ({ service }) => {
   );
 };
 
-ServiceItems.propTypes = {
-  service: PropTypes.any
+LeadSystem.propTypes = {
+  lead: PropTypes.any,
+  setLead: PropTypes.any
 };
 
-export default ServiceItems;
+export default LeadSystem;

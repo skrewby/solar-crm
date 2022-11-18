@@ -1,5 +1,5 @@
 import { getCurrentUser, login, logout, refresh } from './auth';
-import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles, createUserPassword } from './users/user';
+import { changeUserPassword, getUser, getUsers, updateUser, addUser, setUserRoles, createUserPassword, getSalesUsers } from './users/user';
 import { getRoles, updateRole } from './options/roles';
 import { createLeadSource, getLeadSource, getLeadSources, updateLeadSource } from './options/lead-sources';
 import { createPhase, getPhase, getPhases, updatePhase } from './options/phases';
@@ -32,6 +32,26 @@ import {
   getServiceFiles,
   deleteServiceFile
 } from './services';
+import {
+  getLead,
+  getLeads,
+  addLead,
+  updateLead,
+  addLeadItem,
+  updateLeadItem,
+  deleteLeadItem,
+  addLeadLog,
+  getLeadLogs,
+  addLeadFile,
+  getLeadFiles,
+  deleteLeadFile,
+  addLeadSystemItem,
+  deleteLeadSystemItem,
+  updateLeadSystemItem,
+  addLeadExtra,
+  updateLeadExtra,
+  deleteLeadExtra
+} from './leads';
 
 class API {
   abort() {
@@ -53,6 +73,7 @@ API.prototype.addUser = addUser;
 API.prototype.changeUserPassword = changeUserPassword;
 API.prototype.setUserRoles = setUserRoles;
 API.prototype.createUserPassword = createUserPassword;
+API.prototype.getSalesUsers = getSalesUsers;
 
 // ============================= ROLES ============================ //
 API.prototype.getRoles = getRoles;
@@ -132,14 +153,34 @@ API.prototype.addCustomerLog = addCustomerLog;
 API.prototype.getService = getService;
 API.prototype.getServices = getServices;
 API.prototype.addService = addService;
-API.prototype.updateService = updateService;
+API.prototype.updateLead = updateService;
 API.prototype.addServiceItem = addServiceItem;
-API.prototype.updateServiceItem = updateServiceItem;
+API.prototype.updateLeadItem = updateServiceItem;
 API.prototype.deleteServiceItem = deleteServiceItem;
 API.prototype.addServiceLog = addServiceLog;
 API.prototype.getServiceLogs = getServiceLogs;
 API.prototype.addServiceFile = addServiceFile;
 API.prototype.getServiceFiles = getServiceFiles;
 API.prototype.deleteServiceFile = deleteServiceFile;
+
+// =========================== LEADS ============================== //
+API.prototype.getLead = getLead;
+API.prototype.getLeads = getLeads;
+API.prototype.addLead = addLead;
+API.prototype.updateLead = updateLead;
+API.prototype.addLeadItem = addLeadItem;
+API.prototype.updateLeadItem = updateLeadItem;
+API.prototype.deleteLeadItem = deleteLeadItem;
+API.prototype.addLeadLog = addLeadLog;
+API.prototype.getLeadLogs = getLeadLogs;
+API.prototype.addLeadFile = addLeadFile;
+API.prototype.getLeadFiles = getLeadFiles;
+API.prototype.deleteLeadFile = deleteLeadFile;
+API.prototype.addLeadSystemItem = addLeadSystemItem;
+API.prototype.deleteLeadSystemItem = deleteLeadSystemItem;
+API.prototype.updateLeadSystemItem = updateLeadSystemItem;
+API.prototype.addLeadExtra = addLeadExtra;
+API.prototype.updateLeadExtra = updateLeadExtra;
+API.prototype.deleteLeadExtra = deleteLeadExtra;
 
 export const bpmAPI = new API();

@@ -1,20 +1,59 @@
-// material-ui
-import { Typography } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+
+// Material UI
+import AddIcon from '@mui/icons-material/Add';
+import { IconButton } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
+import { bpmAPI } from 'api/bpm/bpm-api';
+import LeadsTable from 'sections/leads/LeadsTable';
+import AddLeadForm from 'sections/leads/forms/AddLeadForm';
 
-// ==============================|| LEADS PAGE ||============================== //
+// ==============================|| SAMPLE PAGE ||============================== //
 
-const Leads = () => (
-  <MainCard title="Leads">
-    <Typography variant="body">
-      Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-      minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in reprehended
-      in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate
-      descent molls anim id est labours.
-    </Typography>
-  </MainCard>
-);
+const Leads = () => {
+  const [data, setData] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const getData = useCallback(async () => {
+    setData([]);
+
+    try {
+      const result = await bpmAPI.getLeads();
+      if (result.data) {
+        setData(result.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  const onAddLead = (values) => {
+    const newData = [...data, values];
+    setData(newData);
+  };
+
+  return (
+    <>
+      <MainCard
+        title="Leads"
+        content={false}
+        secondary={
+          <IconButton justify="center" color="primary" onClick={() => setOpenDialog(true)}>
+            <AddIcon />
+          </IconButton>
+        }
+      >
+        <LeadsTable data={data} />
+      </MainCard>
+      <AddLeadForm onFormSubmit={onAddLead} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+    </>
+  );
+};
 
 export default Leads;
