@@ -64,7 +64,7 @@ const LeadSummary = ({ data, getData, setLead }) => {
       )}
       {data.address && <PropertyAddress data={data} onFormSubmit={onAddressFormSubmit} />}
       {data.sales && data.source && <LeadInformation lead={data} />}
-      {data.property && <LeadProperty lead={data} setLead={setLead} />}
+      {data.property && data.connection && <LeadProperty lead={data} setLead={setLead} />}
     </Stack>
   );
 };

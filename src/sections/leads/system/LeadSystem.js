@@ -40,7 +40,7 @@ const LeadSystem = ({ lead, setLead }) => {
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        sx={{ width: 120, '& .MuiOutlinedInput-input': { py: 0.75, px: 1 }, '& .MuiOutlinedInput-notchedOutline': { border: 'none' } }}
+        sx={{ width: 110, '& .MuiOutlinedInput-input': { py: 0.75, px: 1 }, '& .MuiOutlinedInput-notchedOutline': { border: 'none' } }}
         InputProps={{
           endAdornment: <InputAdornment position="end">kW</InputAdornment>
         }}

@@ -47,7 +47,10 @@ import {
   deleteLeadFile,
   addLeadSystemItem,
   deleteLeadSystemItem,
-  updateLeadSystemItem
+  updateLeadSystemItem,
+  addLeadExtra,
+  updateLeadExtra,
+  deleteLeadExtra
 } from './leads';
 
 class API {
@@ -176,5 +179,8 @@ API.prototype.deleteLeadFile = deleteLeadFile;
 API.prototype.addLeadSystemItem = addLeadSystemItem;
 API.prototype.deleteLeadSystemItem = deleteLeadSystemItem;
 API.prototype.updateLeadSystemItem = updateLeadSystemItem;
+API.prototype.addLeadExtra = addLeadExtra;
+API.prototype.updateLeadExtra = updateLeadExtra;
+API.prototype.deleteLeadExtra = deleteLeadExtra;
 
 export const bpmAPI = new API();

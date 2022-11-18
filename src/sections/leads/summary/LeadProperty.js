@@ -43,6 +43,54 @@ const LeadProperty = ({ lead, setLead }) => {
               <Typography>{data.property.existing_system || '-'}</Typography>
             </Stack>
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Roof Type</Typography>
+              <Typography>{data.property.roof_type || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Roof Pitch</Typography>
+              <Typography>{data.property.roof_pitch || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Stories</Typography>
+              <Typography>{data.property.stories || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Retailer</Typography>
+              <Typography>{data.connection.retailer || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Distributor</Typography>
+              <Typography>{data.connection.distributor || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">NMI</Typography>
+              <Typography>{data.connection.nmi || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Meter Number</Typography>
+              <Typography>{data.connection.meter || '-'}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stack spacing={0.5}>
+              <Typography color="secondary">Comment</Typography>
+              <Typography>{data.property.comment || '-'}</Typography>
+            </Stack>
+          </Grid>
         </Grid>
       </MainCard>
       <UpdateLeadProperty data={data} openDialog={openDialog} setOpenDialog={setOpenDialog} onFormSubmit={onFormSubmit} />

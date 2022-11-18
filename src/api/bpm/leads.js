@@ -179,3 +179,39 @@ export async function updateLeadSystemItem(id, data) {
 
   return Promise.resolve(response);
 }
+
+export async function addLeadExtra(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/leads/' + id + '/extras')
+    .post(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function deleteLeadExtra(id, item) {
+  const response = await bpmServer
+    .api()
+    .url('/leads/' + id + '/extras/' + item)
+    .delete()
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}
+
+export async function updateLeadExtra(id, data) {
+  const response = await bpmServer
+    .api()
+    .url('/leads/' + id + '/extras/' + data.id)
+    .patch(data)
+    .json((response) => {
+      return response;
+    });
+
+  return Promise.resolve(response);
+}

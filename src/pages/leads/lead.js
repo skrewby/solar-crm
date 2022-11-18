@@ -11,11 +11,12 @@ import MessageTwoToneIcon from '@mui/icons-material/MessageTwoTone';
 // project import
 import { bpmAPI } from 'api/bpm/bpm-api';
 import { useParams } from 'react-router';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, Tab, Tabs } from '@mui/material';
 import LeadTimeline from 'sections/leads/LeadTimeline';
 import LeadSummary from 'sections/leads/summary/LeadSummary';
 import LeadSystem from 'sections/leads/system/LeadSystem';
 import LeadLogs from 'sections/leads/logs/LeadLogs';
+import LeadExtras from 'sections/leads/finance/LeadExtras';
 
 // ==============================|| TAB PANEL ||============================== //
 function TabPanel({ children, value, index, ...other }) {
@@ -43,6 +44,7 @@ function a11yProps(index) {
 const Lead = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -50,12 +52,13 @@ const Lead = () => {
   };
 
   const getData = useCallback(async () => {
-    setData([]);
+    setData(true);
 
     try {
       const result = await bpmAPI.getLead(id);
       if (result.data) {
         setData(result.data);
+        setLoading(false);
       }
     } catch (err) {
       console.error(err);
@@ -94,54 +97,65 @@ const Lead = () => {
     return `${data.ref} ${data.customer.first_name} ${data.customer.last_name}`;
   };
 
-  return (
-    <>
-      <InfoHeader navigation={navigation} currentLocation="Details" title={getCustomerName()} />
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={tab} onChange={handleTabChange} variant="scrollable" scrollButtons="auto">
-            <Tab label="Summary" icon={<InfoTwoToneIcon />} iconPosition="start" {...a11yProps(0)} />
-            <Tab label="System" icon={<SolarPowerTwoToneIcon />} iconPosition="start" {...a11yProps(1)} />
-            <Tab label="Finance" icon={<MonetizationOnTwoToneIcon />} iconPosition="start" {...a11yProps(2)} />
-            <Tab label="Log" icon={<MessageTwoToneIcon />} iconPosition="start" {...a11yProps(3)} />
-          </Tabs>
+  if (loading) {
+    return <></>;
+  } else if (loading === false) {
+    return (
+      <>
+        <InfoHeader navigation={navigation} currentLocation="Details" title={getCustomerName()} />
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={tab} onChange={handleTabChange} variant="scrollable" scrollButtons="auto">
+              <Tab label="Summary" icon={<InfoTwoToneIcon />} iconPosition="start" {...a11yProps(0)} />
+              <Tab label="System" icon={<SolarPowerTwoToneIcon />} iconPosition="start" {...a11yProps(1)} />
+              <Tab label="Finance" icon={<MonetizationOnTwoToneIcon />} iconPosition="start" {...a11yProps(2)} />
+              <Tab label="Log" icon={<MessageTwoToneIcon />} iconPosition="start" {...a11yProps(3)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={tab} index={0}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={9}>
+                <LeadSummary data={data} getData={getData} setLead={setData} />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tab} index={1}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={9}>
+                <LeadSystem lead={data} setLead={setData} />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tab} index={2}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={9}>
+                <LeadExtras lead={data} setLead={setData} />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={tab} index={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={9}>
+                <LeadLogs lead={data} />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />
+              </Grid>
+            </Grid>
+          </TabPanel>
         </Box>
-        <TabPanel value={tab} index={0}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={9}>
-              <LeadSummary data={data} getData={getData} setLead={setData} />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
-            </Grid>
-          </Grid>
-        </TabPanel>
-        <TabPanel value={tab} index={1}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={9}>
-              {data.system && <LeadSystem lead={data} setLead={setData} />}
-            </Grid>
-            <Grid item xs={12} md={3}>
-              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
-            </Grid>
-          </Grid>
-        </TabPanel>
-        <TabPanel value={tab} index={2}>
-          <Typography variant="h6">Finance Under Construction</Typography>
-        </TabPanel>
-        <TabPanel value={tab} index={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={9}>
-              {data.system && <LeadLogs lead={data} />}
-            </Grid>
-            <Grid item xs={12} md={3}>
-              {data.status && <LeadTimeline data={data} status={data.status ? data.status.id : 0} getData={getData} setLead={setData} />}
-            </Grid>
-          </Grid>
-        </TabPanel>
-      </Box>
-    </>
-  );
+      </>
+    );
+  }
 };
 
 export default Lead;
